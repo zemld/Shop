@@ -17,8 +17,8 @@ definitions:
 host: localhost:8080
 info:
   contact: {}
-  description: API for Text Analyzer.
-  title: API
+  description: API gateway for Shop application.
+  title: Gateway
   version: "1.0"
 paths:
   /v1/users/{userID}:

@@ -8,9 +8,9 @@ import (
 	"github.com/zemld/Shop/api-gateway/handlers"
 )
 
-// @title API
+// @title Gateway
 // @version 1.0
-// @description API for Text Analyzer.
+// @description API gateway for Shop application.
 // @host localhost:8080
 // @BasePath /
 func main() {

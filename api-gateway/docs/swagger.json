@@ -1,8 +1,8 @@
 {
     "swagger": "2.0",
     "info": {
-        "description": "API for Text Analyzer.",
-        "title": "API",
+        "description": "API gateway for Shop application.",
+        "title": "Gateway",
         "contact": {},
         "version": "1.0"
     },

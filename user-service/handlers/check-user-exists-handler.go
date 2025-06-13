@@ -4,6 +4,7 @@ import (
 	"log"
 	"net/http"
 
+	"github.com/zemld/Shop/user-service/db"
 	"github.com/zemld/Shop/user-service/domain/constants"
 	"github.com/zemld/Shop/user-service/domain/dto"
 	"github.com/zemld/Shop/user-service/internal"
@@ -30,10 +31,17 @@ func CheckUserRegistered(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	log.Printf("Parsed user ID: %d\n", userID)
-	// TODO: здесь должно быть обращение к бд.
+	doesExist, err := db.CreateDBConnectionAndCheckUserRegistered(db.UsersDB, db.CheckUserRegisteredQuery)
+	if err != nil {
+		internal.WriteResponse(w, dto.StatusResponse{
+			UserID:  userID,
+			Message: "Error while checking user registration: " + err.Error(),
+		}, http.StatusInternalServerError)
+		return
+	}
 	userRegisteredResponse := dto.UserRegistered{
 		UserID:       userID,
-		IsRegistered: true, // TODO: написать запрос в user-service.
+		IsRegistered: doesExist,
 	}
 	internal.WriteResponse(w, userRegisteredResponse, http.StatusOK)
 }

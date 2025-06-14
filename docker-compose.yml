@@ -2,7 +2,7 @@ services:
   api-gateway:
     build:
       context: ./api-gateway
-      dockerfile: Dockerfile
+      dockerfile: build/Dockerfile
     ports:
       - "8080:8080"
     depends_on:
@@ -11,7 +11,7 @@ services:
   user-service:
     build:
       context: ./user-service
-      dockerfile: Dockerfile
+      dockerfile: build/Dockerfile
     ports:
       - "8081:8081"
   

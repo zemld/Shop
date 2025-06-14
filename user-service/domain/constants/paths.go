@@ -1,5 +1,5 @@
 package constants
 
 const (
-	UserRegisteredPath = "/v1/users/{userID}"
+	UserRegisteredPath = "/v1/users/{user}"
 )

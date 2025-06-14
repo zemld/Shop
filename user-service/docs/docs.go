@@ -15,7 +15,7 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/v1/users/{userID}": {
+        "/v1/users/{user}": {
             "get": {
                 "description": "Checks if user is registered.",
                 "produces": [
@@ -23,9 +23,9 @@ const docTemplate = `{
                 ],
                 "parameters": [
                     {
-                        "type": "integer",
-                        "description": "User ID which you want to check",
-                        "name": "userID",
+                        "type": "string",
+                        "description": "User which you want to check",
+                        "name": "user",
                         "in": "path",
                         "required": true
                     }
@@ -61,7 +61,7 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "user_id": {
-                    "type": "integer"
+                    "type": "string"
                 }
             }
         },
@@ -72,7 +72,7 @@ const docTemplate = `{
                     "type": "boolean"
                 },
                 "user_id": {
-                    "type": "integer"
+                    "type": "string"
                 }
             }
         }

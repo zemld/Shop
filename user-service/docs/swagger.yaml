@@ -5,14 +5,14 @@ definitions:
       message:
         type: string
       user_id:
-        type: integer
+        type: string
     type: object
   dto.UserRegistered:
     properties:
       is_registered:
         type: boolean
       user_id:
-        type: integer
+        type: string
     type: object
 host: localhost:8081
 info:
@@ -21,15 +21,15 @@ info:
   title: User Service
   version: "1.0"
 paths:
-  /v1/users/{userID}:
+  /v1/users/{user}:
     get:
       description: Checks if user is registered.
       parameters:
-      - description: User ID which you want to check
+      - description: User which you want to check
         in: path
-        name: userID
+        name: user
         required: true
-        type: integer
+        type: string
       produces:
       - application/json
       responses:

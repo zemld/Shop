@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"fmt"
 	"log"
 	"net/http"
 
@@ -30,9 +31,26 @@ func CheckUserRegistered(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	log.Printf("Parsed user ID: %d\n", userID)
-	userRegisteredResponse := dto.UserRegistered{
-		UserID:       userID,
-		IsRegistered: true, // TODO: написать запрос в user-service.
+	response, err := sendRequestToUserService(r.URL.Path)
+	if err != nil {
+		internal.WriteResponse(w, dto.StatusResponse{
+			UserID:  userID,
+			Message: "Can't recieve response from user service.",
+		}, http.StatusInternalServerError)
+		return
 	}
-	internal.WriteResponse(w, userRegisteredResponse, http.StatusOK)
+	defer response.Body.Close()
+	internal.WriteResponse(w, response, response.StatusCode)
+}
+
+func sendRequestToUserService(path string) (*http.Response, error) {
+	request, _ := http.NewRequest("GET", fmt.Sprintf("http://user-service:8081%s", path), nil)
+	client := http.Client{}
+	response, err := client.Do(request)
+	if err != nil {
+		log.Println("Couldn't get response from user service.")
+		return nil, err
+	}
+	log.Printf("Got response from user service: %s\n", response.Body)
+	return response, nil
 }

@@ -1,6 +1,6 @@
 package dto
 
 type StatusResponse struct {
-	User    string `json:"user_id"`
+	User    string `json:"user"`
 	Message string `json:"message"`
 }

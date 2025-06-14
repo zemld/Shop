@@ -15,6 +15,50 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/v1/users/register": {
+            "post": {
+                "description": "Registers a new user.",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "User which you want to register",
+                        "name": "name",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "number",
+                        "description": "Balance of the user",
+                        "name": "balance",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.User"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/dto.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/dto.StatusResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/v1/users/{user}": {
             "get": {
                 "description": "Checks if user is registered.",
@@ -60,7 +104,7 @@ const docTemplate = `{
                 "message": {
                     "type": "string"
                 },
-                "user_id": {
+                "user": {
                     "type": "string"
                 }
             }
@@ -71,7 +115,18 @@ const docTemplate = `{
                 "is_registered": {
                     "type": "boolean"
                 },
-                "user_id": {
+                "user": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.User": {
+            "type": "object",
+            "properties": {
+                "balance": {
+                    "type": "number"
+                },
+                "name": {
                     "type": "string"
                 }
             }

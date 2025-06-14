@@ -1,0 +1,48 @@
+basePath: /
+definitions:
+  dto.StatusResponse:
+    properties:
+      message:
+        type: string
+      user_id:
+        type: integer
+    type: object
+  dto.UserRegistered:
+    properties:
+      is_registered:
+        type: boolean
+      user_id:
+        type: integer
+    type: object
+host: localhost:8080
+info:
+  contact: {}
+  description: API gateway for Shop application.
+  title: Gateway
+  version: "1.0"
+paths:
+  /v1/users/{userID}:
+    get:
+      description: Checks if user is registered.
+      parameters:
+      - description: User ID which you want to check
+        in: path
+        name: userID
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.UserRegistered'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.StatusResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.StatusResponse'
+swagger: "2.0"

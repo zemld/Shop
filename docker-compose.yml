@@ -2,61 +2,18 @@ services:
   api-gateway:
     build:
       context: ./api-gateway
-      dockerfile: Dockerfile
+      dockerfile: build/Dockerfile
     ports:
       - "8080:8080"
     depends_on:
-      - admin-service
       - user-service
-      - order-service
-      - item-service
-  
-  admin-service:
-    build:
-      context: ./admin-service
-      dockerfile: Dockerfile
-    ports:
-      - "8081:8081"
-    depends_on:
-      - item-service
 
   user-service:
     build:
       context: ./user-service
-      dockerfile: Dockerfile
+      dockerfile: build/Dockerfile
     ports:
-      - "8082:8082"
-      
-  order-service:
-    build:
-      context: ./order-service
-      dockerfile: Dockerfile
-    ports:
-      - "8083:8083"
-    depends_on:
-      - user-service
-      - payment-service
-      - item-service
-      - mq
-    
-  payment-service:
-    build:
-      context: ./payment-service
-      dockerfile: Dockerfile
-    ports:
-      - "8084:8084"
-    depends_on:
-      - user-service
-      - mq
-
-  item-service:
-    build:
-      context: ./item-service
-      dockerfile: Dockerfile
-    ports:
-      - "8085:8085"
-    depends_on:
-      - mq
+      - "8081:8081"
   
   user-db:
     image: postgres:latest
@@ -66,44 +23,8 @@ services:
       POSTGRES_DB: userdb
     ports:
       - "5432:5432"
+    volumes:
+      - user-db-data:/var/lib/postgresql/data
 
-  admin-db:
-    image: postgres:latest
-    environment:
-      POSTGRES_USER: admin
-      POSTGRES_PASSWORD: password
-      POSTGRES_DB: admindb
-    ports:
-      - "5433:5433"
-
-  item-db:
-    image: postgres:latest
-    environment:
-      POSTGRES_USER: item
-      POSTGRES_PASSWORD: password
-      POSTGRES_DB: itemdb
-    ports:
-      - "5434:5434"
-
-  order-outbox-db:
-    image: postgres:latest
-    environment:
-      POSTGRES_USER: order
-      POSTGRES_PASSWORD: password
-      POSTGRES_DB: orderoutboxdb
-    ports:
-      - "5435:5435"
-  
-  payment-outbox-db:
-    image: postgres:latest
-    environment:
-      POSTGRES_USER: payment
-      POSTGRES_PASSWORD: password
-      POSTGRES_DB: paymentoutboxdb
-    ports:
-      - "5436:5436"
-  
-  mq:
-    image: nats:latest
-    ports:
-      - "4222:4222"
+volumes:
+  user-db-data:

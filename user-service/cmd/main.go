@@ -5,13 +5,13 @@ import (
 
 	"github.com/go-chi/chi"
 	httpSwagger "github.com/swaggo/http-swagger"
-	"github.com/zemld/Shop/api-gateway/handlers"
+	"github.com/zemld/Shop/user-service/handlers"
 )
 
-// @title Gateway
+// @title User Service
 // @version 1.0
-// @description API gateway for Shop application.
-// @host localhost:8080
+// @description API for interacting with users.
+// @host localhost:8081
 // @BasePath /
 func main() {
 	router := chi.NewRouter()
@@ -20,6 +20,6 @@ func main() {
 
 	fs := http.FileServer(http.Dir("./docs"))
 	router.Handle("/docs/*", http.StripPrefix("/docs/", fs))
-	router.Get("/swagger/*", httpSwagger.Handler(httpSwagger.URL("http://localhost:8080/docs/swagger.json")))
-	http.ListenAndServe(":8080", router)
+	router.Get("/swagger/*", httpSwagger.Handler(httpSwagger.URL("http://localhost:8081/docs/swagger.json")))
+	http.ListenAndServe(":8081", router)
 }

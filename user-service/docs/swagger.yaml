@@ -1,3 +1,4 @@
+basePath: /
 definitions:
   dto.StatusResponse:
     properties:
@@ -13,8 +14,12 @@ definitions:
       user_id:
         type: integer
     type: object
+host: localhost:8081
 info:
   contact: {}
+  description: API for interacting with users.
+  title: User Service
+  version: "1.0"
 paths:
   /v1/users/{userID}:
     get:

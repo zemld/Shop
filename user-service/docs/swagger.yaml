@@ -21,13 +21,13 @@ info:
   title: User Service
   version: "1.0"
 paths:
-  /v1/users/{userID}:
+  /v1/users/{user}:
     get:
       description: Checks if user is registered.
       parameters:
-      - description: User ID which you want to check
+      - description: User which you want to check
         in: path
-        name: userID
+        name: user
         required: true
         type: string
       produces:

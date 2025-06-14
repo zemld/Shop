@@ -39,8 +39,9 @@ func CheckUserRegistered(w http.ResponseWriter, r *http.Request) {
 		}, http.StatusInternalServerError)
 		return
 	}
-	defer response.Body.Close()
-	internal.WriteResponse(w, response, response.StatusCode)
+	resp := *response
+	defer resp.Body.Close()
+	internal.WriteResponse(w, resp, response.StatusCode)
 }
 
 func sendRequestToUserService(path string) (*http.Response, error) {

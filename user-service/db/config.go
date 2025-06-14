@@ -4,6 +4,8 @@ import (
 	"context"
 	"database/sql"
 	"time"
+
+	_ "github.com/jackc/pgx/v5/stdlib"
 )
 
 func getContext() (context.Context, context.CancelFunc) {

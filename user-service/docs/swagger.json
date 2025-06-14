@@ -17,7 +17,7 @@
                 ],
                 "parameters": [
                     {
-                        "type": "integer",
+                        "type": "string",
                         "description": "User ID which you want to check",
                         "name": "userID",
                         "in": "path",
@@ -55,7 +55,7 @@
                     "type": "string"
                 },
                 "user_id": {
-                    "type": "integer"
+                    "type": "string"
                 }
             }
         },
@@ -66,7 +66,7 @@
                     "type": "boolean"
                 },
                 "user_id": {
-                    "type": "integer"
+                    "type": "string"
                 }
             }
         }

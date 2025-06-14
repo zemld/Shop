@@ -1,5 +1,5 @@
 package constants
 
 const (
-	IDPathParam = "{userID}"
+	PathParam = "{user}"
 )

@@ -5,14 +5,14 @@ definitions:
       message:
         type: string
       user_id:
-        type: integer
+        type: string
     type: object
   dto.UserRegistered:
     properties:
       is_registered:
         type: boolean
       user_id:
-        type: integer
+        type: string
     type: object
 host: localhost:8081
 info:
@@ -29,7 +29,7 @@ paths:
         in: path
         name: userID
         required: true
-        type: integer
+        type: string
       produces:
       - application/json
       responses:

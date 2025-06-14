@@ -12,34 +12,34 @@ import (
 
 // @description Checks if user is registered.
 // @tag.name File operations
-// @param userID path int true "User ID which you want to check"
+// @param user path string true "User which you want to check"
 // @produce json
 // @success 200 {object} dto.UserRegistered
 // @failure 400 {object} dto.StatusResponse
 // @failure 500 {object} dto.StatusResponse
-// @router /v1/users/{userID} [get]
+// @router /v1/users/{user} [get]
 func CheckUserRegistered(w http.ResponseWriter, r *http.Request) {
-	userID, err := internal.TryParseURLPathParamAndConvertToInt(r.URL.Path, constants.UserRegisteredPath, constants.IDPathParam)
+	user, err := internal.TryParseURLPathParam(r.URL.Path, constants.UserRegisteredPath, constants.PathParam)
 	if err != nil {
-		log.Println("Can't parse user ID from request URL")
+		log.Println("Can't parse user from request URL")
 		internal.WriteResponse(
 			w,
 			dto.StatusResponse{
-				UserID:  -1,
-				Message: "Can't parse user ID from request URL"},
+				User:    "",
+				Message: "Can't parse user from request URL"},
 			http.StatusBadRequest)
 		return
 	}
-	log.Printf("Parsed user ID: %d\n", userID)
+	log.Printf("Parsed user: %s\n", user)
 	response, err := sendRequestToUserService(r.URL.Path)
 	if err != nil {
 		internal.WriteResponse(w, dto.StatusResponse{
-			UserID:  userID,
+			User:    user,
 			Message: "Can't recieve response from user service.",
 		}, http.StatusInternalServerError)
 		return
 	}
-	internal.TryParseResponseBodyAndWriteResponse(w, response, userID)
+	internal.TryParseResponseBodyAndWriteResponse(w, response, user)
 }
 
 func sendRequestToUserService(path string) (*http.Response, error) {

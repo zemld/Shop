@@ -23,7 +23,7 @@ const docTemplate = `{
                 ],
                 "parameters": [
                     {
-                        "type": "integer",
+                        "type": "string",
                         "description": "User ID which you want to check",
                         "name": "userID",
                         "in": "path",
@@ -61,7 +61,7 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "user_id": {
-                    "type": "integer"
+                    "type": "string"
                 }
             }
         },
@@ -72,7 +72,7 @@ const docTemplate = `{
                     "type": "boolean"
                 },
                 "user_id": {
-                    "type": "integer"
+                    "type": "string"
                 }
             }
         }

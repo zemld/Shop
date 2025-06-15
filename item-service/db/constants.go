@@ -7,9 +7,9 @@ const (
 		price FLOAT NOT NULL CHECK (price >= 0.0),
 		amount INT NOT NULL CHECK (amount >= 0)
 		);`
-	addItemQuery          = "INSERT INTO items (name, price, amount) VALUES ($1, $2, $3) ON CONFLICT (name) DO UPDATE SET price = EXCLUDED.price, amount = EXCLUDED.amount;"
-	updateItemPriceQuery  = "UPDATE items SET price = $2 WHERE name = $1;"
-	updateItemAmountQuery = "UPDATE items SET amount = MAX(amount + $2, 0) WHERE name = $1;"
-	getItemQuery          = "SELECT name, price, amount FROM items WHERE name = $1;"
-	deleteItemQuery       = "DELETE FROM items WHERE name = $1;"
+	addItemQuery          = "INSERT INTO items (name, price, amount) VALUES ($1, $2, $3) ON CONFLICT (name) DO UPDATE SET price = EXCLUDED.price, amount = EXCLUDED.amount RETURNING name, price, amount;"
+	updateItemPriceQuery  = "UPDATE items SET price = $2 WHERE name = $1 RETURNING name, price, amount;"
+	updateItemAmountQuery = "UPDATE items SET amount = GREATEST(amount + $2, 0) WHERE name = $1 RETURNING name, price, amount;"
+	getItemQuery          = "SELECT name, price, amount FROM items WHERE name = $1 RETURNING name, price, amount;"
+	deleteItemQuery       = "DELETE FROM items WHERE name = $1 RETURNING name, price, amount;"
 )

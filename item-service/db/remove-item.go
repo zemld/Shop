@@ -7,7 +7,7 @@ import (
 	"github.com/zemld/Shop/item-service/domain/models"
 )
 
-func CreateDBConnectionAndRemoveItem(dbConnection string, item models.Item, createTableQuery ...string) error {
+func RemoveItem(dbConnection string, item models.Item, createTableQuery ...string) (models.Item, error) {
 	creationQuery := createItemsTableQuery
 	if len(createTableQuery) > 0 {
 		creationQuery = createTableQuery[0]
@@ -15,33 +15,34 @@ func CreateDBConnectionAndRemoveItem(dbConnection string, item models.Item, crea
 
 	db, err := ConnectDB(dbConnection)
 	if err != nil {
-		return err
+		return models.Item{}, err
 	}
 	defer db.Close()
 
 	if err := CreateTable(db, creationQuery); err != nil {
-		return err
+		return models.Item{}, err
 	}
 
-	err = removeItem(db, item)
+	updatedItem, err := removeItem(db, item)
 	if err != nil {
-		return err
+		return models.Item{}, err
 	}
-	return nil
+	return updatedItem, nil
 }
 
-func removeItem(db *sql.DB, item models.Item) error {
+func removeItem(db *sql.DB, item models.Item) (models.Item, error) {
 	if db == nil {
-		return pgx.ErrNoRows
+		return models.Item{}, pgx.ErrNoRows
 	}
 
 	ctx, cancel := getContext()
 	defer cancel()
 
-	_, err := db.ExecContext(ctx, deleteItemQuery, item.Name)
+	var updatedItem models.Item
+	err := db.QueryRowContext(ctx, deleteItemQuery, item.Name).Scan(&updatedItem.Name, &updatedItem.Price, &updatedItem.Amount)
 	if err != nil {
-		return err
+		return models.Item{}, err
 	}
 
-	return nil
+	return updatedItem, nil
 }

@@ -2,9 +2,11 @@ package db
 
 import (
 	"database/sql"
+
+	"github.com/zemld/Shop/item-service/domain/models"
 )
 
-func CreateDBConnectionAndUpdateItemAmount(dbConnection string, name string, diff int, createTableQuery ...string) error {
+func UpdateItemAmount(dbConnection string, name string, diff int, createTableQuery ...string) (models.Item, error) {
 	creationQuery := createItemsTableQuery
 	if len(createTableQuery) > 0 {
 		creationQuery = createTableQuery[0]
@@ -12,33 +14,34 @@ func CreateDBConnectionAndUpdateItemAmount(dbConnection string, name string, dif
 
 	db, err := ConnectDB(dbConnection)
 	if err != nil {
-		return err
+		return models.Item{}, err
 	}
 	defer db.Close()
 
 	if err := CreateTable(db, creationQuery); err != nil {
-		return err
+		return models.Item{}, err
 	}
 
-	err = updateItemAmount(db, name, diff)
+	updatedItem, err := updateItemAmount(db, name, diff)
 	if err != nil {
-		return err
+		return models.Item{}, err
 	}
-	return nil
+	return updatedItem, nil
 }
 
-func updateItemAmount(db *sql.DB, name string, diff int) error {
+func updateItemAmount(db *sql.DB, name string, diff int) (models.Item, error) {
 	if db == nil {
-		return sql.ErrNoRows
+		return models.Item{}, sql.ErrNoRows
 	}
 
 	ctx, cancel := getContext()
 	defer cancel()
 
-	_, err := db.ExecContext(ctx, updateItemAmountQuery, name, diff)
+	var updatedItem models.Item
+	err := db.QueryRowContext(ctx, updateItemAmountQuery, name, diff).Scan(&updatedItem.Name, &updatedItem.Price, &updatedItem.Amount)
 	if err != nil {
-		return err
+		return models.Item{}, err
 	}
 
-	return nil
+	return updatedItem, nil
 }

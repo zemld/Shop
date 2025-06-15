@@ -2,6 +2,7 @@ package db
 
 import (
 	"database/sql"
+	"log"
 
 	"github.com/jackc/pgx/v5"
 )
@@ -9,6 +10,7 @@ import (
 func CreateDBConnectionAndCheckUserRegistered(dbConnection, username string, createTableQuery ...string) (bool, error) {
 	createTableUsersQuery := createUsersTableQuery
 	if len(createTableQuery) > 0 {
+		log.Println("Using custom create table query for users")
 		createTableUsersQuery = createTableQuery[0]
 	}
 

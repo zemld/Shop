@@ -4,14 +4,21 @@ definitions:
     properties:
       message:
         type: string
-      user_id:
+      user:
         type: string
     type: object
   dto.UserRegistered:
     properties:
       is_registered:
         type: boolean
-      user_id:
+      user:
+        type: string
+    type: object
+  models.User:
+    properties:
+      balance:
+        type: number
+      name:
         type: string
     type: object
 host: localhost:8081
@@ -37,6 +44,35 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/dto.UserRegistered'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.StatusResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.StatusResponse'
+  /v1/users/register:
+    post:
+      description: Registers a new user.
+      parameters:
+      - description: User which you want to register
+        in: query
+        name: name
+        required: true
+        type: string
+      - description: Balance of the user
+        in: query
+        name: balance
+        required: true
+        type: number
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.User'
         "400":
           description: Bad Request
           schema:

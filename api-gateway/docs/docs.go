@@ -60,7 +60,7 @@ const docTemplate = `{
                 "message": {
                     "type": "string"
                 },
-                "user_id": {
+                "user": {
                     "type": "string"
                 }
             }
@@ -71,7 +71,7 @@ const docTemplate = `{
                 "is_registered": {
                     "type": "boolean"
                 },
-                "user_id": {
+                "user": {
                     "type": "string"
                 }
             }

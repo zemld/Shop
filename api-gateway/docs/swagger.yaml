@@ -4,14 +4,14 @@ definitions:
     properties:
       message:
         type: string
-      user_id:
+      user:
         type: string
     type: object
   dto.UserRegistered:
     properties:
       is_registered:
         type: boolean
-      user_id:
+      user:
         type: string
     type: object
 host: localhost:8080

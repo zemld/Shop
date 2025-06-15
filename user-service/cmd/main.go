@@ -17,6 +17,7 @@ func main() {
 	router := chi.NewRouter()
 
 	router.Get("/v1/users/{userID}", handlers.CheckUserRegistered)
+	router.Post("/v1/users/register", handlers.RegisterUserHandler)
 
 	fs := http.FileServer(http.Dir("./docs"))
 	router.Handle("/docs/*", http.StripPrefix("/docs/", fs))

@@ -11,7 +11,7 @@ import (
 )
 
 // @description Checks if user is registered.
-// @tag.name File operations
+// @tag.name Users operations
 // @param user path string true "User which you want to check"
 // @produce json
 // @success 200 {object} dto.UserRegistered
@@ -31,7 +31,7 @@ func CheckUserRegistered(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	log.Printf("Parsed user: %s\n", user)
-	doesExist, err := db.CreateDBConnectionAndCheckUserRegistered(db.UsersDB, db.CheckUserRegisteredQuery)
+	doesExist, err := db.CreateDBConnectionAndCheckUserRegistered(db.UsersDB, user)
 	if err != nil {
 		internal.WriteResponse(w, dto.StatusResponse{
 			User:    user,

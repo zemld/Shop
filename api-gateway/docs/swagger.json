@@ -54,7 +54,7 @@
                 "message": {
                     "type": "string"
                 },
-                "user_id": {
+                "user": {
                     "type": "string"
                 }
             }
@@ -65,7 +65,7 @@
                 "is_registered": {
                     "type": "boolean"
                 },
-                "user_id": {
+                "user": {
                     "type": "string"
                 }
             }

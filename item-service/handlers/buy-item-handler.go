@@ -8,26 +8,25 @@ import (
 	"github.com/zemld/Shop/item-service/internal"
 )
 
-// @description Add a new item.
+// @description Makes item purchase.
 // @tag.name Items operations
-// @param name query string true "Item name which you want to add"
-// @param price query float64 true "Cost of the item"
-// @param amount query int true "Amount of the item in stock"
+// @param name query string true "Item name which you want to buy"
+// @param amount query int true "Amount of the item to buy"
 // @produce json
 // @success 200 {object} models.ItemResponse
 // @failure 400 {object} models.ItemResponse
 // @failure 500 {object} models.ItemResponse
-// @router /v1/items/add [post]
-func AddItemHandler(w http.ResponseWriter, r *http.Request) {
-	item, err := internal.ValidateItemFromRequest(r)
+// @router /v1/items/buy [post]
+func BuyItemHandler(w http.ResponseWriter, r *http.Request) {
+	name, amount, err := internal.ValidateItemNameAndAmountFromRequest(r)
 	if err != nil {
 		internal.WriteResponse(w, models.ItemResponse{
-			Item:    item,
+			Item:    models.Item{},
 			Message: err.Error(),
 		}, http.StatusBadRequest)
 		return
 	}
-	updatedItem, err := db.AddItem(db.ItemsDB, item)
+	item, err := db.UpdateItemAmount(db.ItemsDB, name, -amount)
 	if err != nil {
 		internal.WriteResponse(w, models.ItemResponse{
 			Item:    item,
@@ -36,7 +35,7 @@ func AddItemHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	internal.WriteResponse(w, models.ItemResponse{
-		Item:    updatedItem,
-		Message: "Item added successfully",
+		Item:    item,
+		Message: "Item purchased",
 	}, http.StatusOK)
 }

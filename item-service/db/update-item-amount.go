@@ -3,11 +3,10 @@ package db
 import (
 	"database/sql"
 
-	"github.com/jackc/pgx/v5"
 	"github.com/zemld/Shop/item-service/domain/models"
 )
 
-func RemoveItem(dbConnection string, item models.Item, createTableQuery ...string) (models.Item, error) {
+func UpdateItemAmount(dbConnection string, name string, diff int, createTableQuery ...string) (models.Item, error) {
 	creationQuery := createItemsTableQuery
 	if len(createTableQuery) > 0 {
 		creationQuery = createTableQuery[0]
@@ -23,23 +22,23 @@ func RemoveItem(dbConnection string, item models.Item, createTableQuery ...strin
 		return models.Item{}, err
 	}
 
-	updatedItem, err := removeItem(db, item)
+	updatedItem, err := updateItemAmount(db, name, diff)
 	if err != nil {
 		return models.Item{}, err
 	}
 	return updatedItem, nil
 }
 
-func removeItem(db *sql.DB, item models.Item) (models.Item, error) {
+func updateItemAmount(db *sql.DB, name string, diff int) (models.Item, error) {
 	if db == nil {
-		return models.Item{}, pgx.ErrNoRows
+		return models.Item{}, sql.ErrNoRows
 	}
 
 	ctx, cancel := getContext()
 	defer cancel()
 
 	var updatedItem models.Item
-	err := db.QueryRowContext(ctx, deleteItemQuery, item.Name).Scan(&updatedItem.Name, &updatedItem.Price, &updatedItem.Amount)
+	err := db.QueryRowContext(ctx, updateItemAmountQuery, name, diff).Scan(&updatedItem.Name, &updatedItem.Price, &updatedItem.Amount)
 	if err != nil {
 		return models.Item{}, err
 	}

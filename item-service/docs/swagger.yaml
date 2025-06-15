@@ -57,6 +57,64 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/models.ItemResponse'
+  /v1/items/buy:
+    post:
+      description: Makes item purchase.
+      parameters:
+      - description: Item name which you want to buy
+        in: query
+        name: name
+        required: true
+        type: string
+      - description: Amount of the item to buy
+        in: query
+        name: amount
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.ItemResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ItemResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ItemResponse'
+  /v1/items/deliver:
+    post:
+      description: Makes delivery for item.
+      parameters:
+      - description: Item name which you want to deliver
+        in: query
+        name: name
+        required: true
+        type: string
+      - description: Amount of the item to deliver
+        in: query
+        name: amount
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.ItemResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ItemResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ItemResponse'
   /v1/items/remove:
     post:
       description: Remove an item.

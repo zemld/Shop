@@ -1,0 +1,60 @@
+basePath: /
+definitions:
+  models.Item:
+    properties:
+      amount:
+        type: integer
+      name:
+        type: string
+      price:
+        type: number
+    type: object
+  models.ItemResponse:
+    properties:
+      item:
+        $ref: '#/definitions/models.Item'
+      message:
+        type: string
+    type: object
+host: localhost:8083
+info:
+  contact: {}
+  description: API for interacting with items in storage.
+  title: Item Service
+  version: "1.0"
+paths:
+  /v1/items/add:
+    post:
+      description: Add a new item.
+      parameters:
+      - description: Item name which you want to add
+        in: query
+        name: name
+        required: true
+        type: string
+      - description: Cost of the item
+        in: query
+        name: price
+        required: true
+        type: number
+      - description: Amount of the item in stock
+        in: query
+        name: amount
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.ItemResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ItemResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ItemResponse'
+swagger: "2.0"

@@ -57,4 +57,28 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/models.ItemResponse'
+  /v1/items/remove:
+    post:
+      description: Remove an item.
+      parameters:
+      - description: Item name which you want to remove
+        in: query
+        name: name
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.ItemResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ItemResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ItemResponse'
 swagger: "2.0"

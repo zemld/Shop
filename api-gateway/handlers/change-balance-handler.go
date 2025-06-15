@@ -7,20 +7,20 @@ import (
 	"github.com/zemld/Shop/api-gateway/internal"
 )
 
-// @description Registers a new user.
+// @description Changes the balance of a registered user.
 // @tag.name Users operations
-// @param name query string true "User which you want to register"
-// @param balance query float64 true "Balance of the user"
+// @param name query string true "User whose balance you want to change"
+// @param balance query float64 true "New balance of the user"
 // @produce json
 // @success 200 {object} models.User
 // @failure 400 {object} dto.StatusResponse
 // @failure 500 {object} dto.StatusResponse
-// @router /v1/users/register [post]
-func RegisterUserHandler(w http.ResponseWriter, r *http.Request) {
+// @router /v1/users/change-balance [post]
+func ChangeBalanceHandler(w http.ResponseWriter, r *http.Request) {
 	response, err := internal.SendRequestToUserService(internal.POST, r.URL.Path, r.URL.Query())
 	if err != nil {
 		internal.WriteResponse(w, dto.StatusResponse{
-			User:    r.URL.Query().Get("name"),
+			User:    "",
 			Message: "Can't receive response from user service.",
 		}, http.StatusInternalServerError)
 		return

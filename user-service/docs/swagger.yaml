@@ -52,6 +52,35 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/dto.StatusResponse'
+  /v1/users/change-balance:
+    post:
+      description: Changes the balance of a registered user.
+      parameters:
+      - description: User whose balance you want to change
+        in: query
+        name: name
+        required: true
+        type: string
+      - description: New balance of the user
+        in: query
+        name: balance
+        required: true
+        type: number
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.User'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.StatusResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.StatusResponse'
   /v1/users/register:
     post:
       description: Registers a new user.

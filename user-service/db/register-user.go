@@ -37,7 +37,7 @@ func registerUser(db *sql.DB, username string, balance float64) error {
 	ctx, cancel := getContext()
 	defer cancel()
 
-	_, err := db.ExecContext(ctx, RegisterUserQuery, username, balance)
+	_, err := db.ExecContext(ctx, registerUserQuery, username, balance)
 	if err != nil {
 		return err
 	}

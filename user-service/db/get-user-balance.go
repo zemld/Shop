@@ -39,7 +39,7 @@ func getUserBalance(db *sql.DB, username string) (float64, error) {
 	defer cancel()
 
 	var balance float64
-	err := db.QueryRowContext(ctx, GetUserBalanceQuery, username).Scan(&balance)
+	err := db.QueryRowContext(ctx, getUserBalanceQuery, username).Scan(&balance)
 	if err != nil {
 		return 0.0, err
 	}

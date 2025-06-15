@@ -6,7 +6,7 @@ import (
 	"github.com/jackc/pgx/v5"
 )
 
-func CreateDBConnectionAndRegisterUser(dbConnection, username string, balance float64, createTableQuery ...string) error {
+func CreateDBConnectionAndRegisterUser(dbConnection string, username string, balance float64, createTableQuery ...string) error {
 	createTableUsersQuery := createUsersTableQuery
 	if len(createTableQuery) > 0 {
 		createTableUsersQuery = createTableQuery[0]

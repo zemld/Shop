@@ -14,6 +14,13 @@ definitions:
       user:
         type: string
     type: object
+  models.User:
+    properties:
+      balance:
+        type: number
+      name:
+        type: string
+    type: object
 host: localhost:8080
 info:
   contact: {}
@@ -37,6 +44,64 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/dto.UserRegistered'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.StatusResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.StatusResponse'
+  /v1/users/change-balance:
+    post:
+      description: Changes the balance of a registered user.
+      parameters:
+      - description: User whose balance you want to change
+        in: query
+        name: name
+        required: true
+        type: string
+      - description: New balance of the user
+        in: query
+        name: balance
+        required: true
+        type: number
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.User'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.StatusResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.StatusResponse'
+  /v1/users/register:
+    post:
+      description: Registers a new user.
+      parameters:
+      - description: User which you want to register
+        in: query
+        name: name
+        required: true
+        type: string
+      - description: Balance of the user
+        in: query
+        name: balance
+        required: true
+        type: number
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.User'
         "400":
           description: Bad Request
           schema:

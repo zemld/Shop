@@ -1,5 +1,29 @@
 package handlers
 
-import "net/http"
+import (
+	"net/http"
 
-func RegisterUserHandler(w http.ResponseWriter, r *http.Request) {}
+	"github.com/zemld/Shop/api-gateway/domain/dto"
+	"github.com/zemld/Shop/api-gateway/internal"
+)
+
+// @description Registers a new user.
+// @tag.name Users operations
+// @param name query string true "User which you want to register"
+// @param balance query float64 true "Balance of the user"
+// @produce json
+// @success 200 {object} models.User
+// @failure 400 {object} dto.StatusResponse
+// @failure 500 {object} dto.StatusResponse
+// @router /v1/users/register [post]
+func RegisterUserHandler(w http.ResponseWriter, r *http.Request) {
+	response, err := internal.SendRequestToUserService(internal.POST, r.URL.Path, r.URL.Query())
+	if err != nil {
+		internal.WriteResponse(w, dto.StatusResponse{
+			User:    r.URL.Query().Get("name"),
+			Message: "Can't receive response from user service.",
+		}, http.StatusInternalServerError)
+		return
+	}
+	internal.TryParseResponseBodyAndWriteResponse(w, response, dto.UserResponseType)
+}

@@ -1,7 +1,6 @@
 package handlers
 
 import (
-	"fmt"
 	"log"
 	"net/http"
 
@@ -31,7 +30,7 @@ func CheckUserRegisteredHanlder(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	log.Printf("Parsed user: %s\n", user)
-	response, err := sendRequestToUserService(r.URL.Path)
+	response, err := internal.SendRequestToUserService(r.URL.Path, nil)
 	if err != nil {
 		internal.WriteResponse(w, dto.StatusResponse{
 			User:    user,
@@ -40,16 +39,4 @@ func CheckUserRegisteredHanlder(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	internal.TryParseResponseBodyAndWriteResponse(w, response, user)
-}
-
-func sendRequestToUserService(path string) (*http.Response, error) {
-	request, _ := http.NewRequest("GET", fmt.Sprintf("http://user-service:8081%s", path), nil)
-	client := http.Client{}
-	response, err := client.Do(request)
-	if err != nil {
-		log.Println("Couldn't get response from user service.")
-		return nil, err
-	}
-	log.Printf("Got response from user service: %s\n", response.Body)
-	return response, nil
 }

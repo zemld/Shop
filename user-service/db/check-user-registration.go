@@ -7,7 +7,7 @@ import (
 	"github.com/jackc/pgx/v5"
 )
 
-func CreateDBConnectionAndCheckUserRegistered(dbConnection, username string, createTableQuery ...string) (bool, error) {
+func CreateDBConnectionAndCheckUserRegistered(dbConnection string, username string, createTableQuery ...string) (bool, error) {
 	createTableUsersQuery := createUsersTableQuery
 	if len(createTableQuery) > 0 {
 		log.Println("Using custom create table query for users")

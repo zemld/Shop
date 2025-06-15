@@ -1,4 +1,4 @@
-package dto
+package models
 
 type StatusResponse struct {
 	User    string `json:"user"`

@@ -5,25 +5,24 @@ import (
 	"net/http"
 
 	"github.com/zemld/Shop/admin-service/db"
-	"github.com/zemld/Shop/admin-service/domain/dto"
 	"github.com/zemld/Shop/admin-service/domain/models"
 	"github.com/zemld/Shop/admin-service/internal"
 )
 
 // @description Registers a new admin.
-// @tag.name Users operations
+// @tag.name Admin operations
 // @param name query string true "Admin which you want to register"
 // @produce json
 // @success 200 {object} models.Admin
-// @failure 400 {object} dto.StatusResponse
-// @failure 500 {object} dto.StatusResponse
+// @failure 400 {object} models.StatusResponse
+// @failure 500 {object} models.StatusResponse
 // @router /v1/admins/register [post]
 func RegisterAdminHandler(w http.ResponseWriter, r *http.Request) {
 	// получаю секретный код администратора и отправляю запрос на сохранение в бд.
 	// возвращаю ответ с кодом 200, если всё успешно, или 500, если произошла ошибка.
 	adminName := r.URL.Query().Get("name")
 	if adminName == "" {
-		internal.WriteResponse(w, dto.StatusResponse{
+		internal.WriteResponse(w, models.StatusResponse{
 			User:    adminName,
 			Message: "Admin name is required",
 		}, http.StatusBadRequest)
@@ -32,7 +31,7 @@ func RegisterAdminHandler(w http.ResponseWriter, r *http.Request) {
 	secretCode := internal.GetSecretCode(adminName)
 	err := db.CreateDBConnectionAndRegisterAdmin(db.AdminDB, adminName, secretCode)
 	if err != nil {
-		internal.WriteResponse(w, dto.StatusResponse{
+		internal.WriteResponse(w, models.StatusResponse{
 			User:    adminName,
 			Message: "Failed to register admin: " + err.Error(),
 		}, http.StatusInternalServerError)

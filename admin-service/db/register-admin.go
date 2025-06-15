@@ -6,8 +6,8 @@ import (
 	"github.com/jackc/pgx/v5"
 )
 
-func CreateDBConnectionAndRegisterUser(dbConnection string, username string, balance float64, createTableQuery ...string) error {
-	createTableUsersQuery := createUsersTableQuery
+func CreateDBConnectionAndRegisterAdmin(dbConnection string, username string, code string, createTableQuery ...string) error {
+	createTableUsersQuery := createAdminTableQuery
 	if len(createTableQuery) > 0 {
 		createTableUsersQuery = createTableQuery[0]
 	}
@@ -22,14 +22,14 @@ func CreateDBConnectionAndRegisterUser(dbConnection string, username string, bal
 		return err
 	}
 
-	err = registerUser(db, username, balance)
+	err = registerAdmin(db, username, code)
 	if err != nil {
 		return err
 	}
 	return nil
 }
 
-func registerUser(db *sql.DB, username string, balance float64) error {
+func registerAdmin(db *sql.DB, username string, code string) error {
 	if db == nil {
 		return pgx.ErrNoRows
 	}
@@ -37,7 +37,7 @@ func registerUser(db *sql.DB, username string, balance float64) error {
 	ctx, cancel := getContext()
 	defer cancel()
 
-	_, err := db.ExecContext(ctx, registerUserQuery, username, balance)
+	_, err := db.ExecContext(ctx, registerAdminQuery, username, code)
 	if err != nil {
 		return err
 	}

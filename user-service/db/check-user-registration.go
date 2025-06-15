@@ -40,7 +40,7 @@ func checkUserRegistered(db *sql.DB, username string) (bool, error) {
 	var exists int
 	ctx, cancel := getContext()
 	defer cancel()
-	err := db.QueryRowContext(ctx, CheckUserRegisteredQuery, username).Scan(&exists)
+	err := db.QueryRowContext(ctx, checkUserRegisteredQuery, username).Scan(&exists)
 	doesExist := exists == 1
 	if err != nil {
 		if err == sql.ErrNoRows {

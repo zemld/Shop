@@ -18,6 +18,7 @@ func main() {
 
 	router.Get("/v1/users/{user}", handlers.CheckUserRegisteredHanlder)
 	router.Post("/v1/users/register", handlers.RegisterUserHandler)
+	router.Post("/v1/users/change-balance", handlers.ChangeBalanceHandler)
 
 	fs := http.FileServer(http.Dir("./docs"))
 	router.Handle("/docs/*", http.StripPrefix("/docs/", fs))

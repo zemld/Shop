@@ -18,7 +18,7 @@ import (
 // @failure 400 {object} dto.StatusResponse
 // @failure 500 {object} dto.StatusResponse
 // @router /v1/users/{user} [get]
-func CheckUserRegistered(w http.ResponseWriter, r *http.Request) {
+func CheckUserRegisteredHanlder(w http.ResponseWriter, r *http.Request) {
 	user, err := internal.TryParseURLPathParam(r.URL.Path, constants.UserRegisteredPath, constants.PathParam)
 	if err != nil {
 		log.Println("Can't parse user from request URL")

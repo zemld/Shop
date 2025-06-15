@@ -17,6 +17,7 @@ func main() {
 	router := chi.NewRouter()
 
 	router.Post("/v1/items/add", handlers.AddItemHandler)
+	router.Post("/v1/items/remove", handlers.RemoveItemHandler)
 
 	fs := http.FileServer(http.Dir("./docs"))
 	router.Handle("/docs/*", http.StripPrefix("/docs/", fs))

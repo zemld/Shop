@@ -7,7 +7,7 @@ const (
 		price FLOAT NOT NULL CHECK (price >= 0.0),
 		amount INT NOT NULL CHECK (amount >= 0)
 		);`
-	addItemQuery          = "INSERT INTO items (name, price, amount) VALUES ($1, $2, $3) ON CONFLICT (name) DO UPDATE SET price = EXCLUDED.price RETURNING username, balance;"
+	addItemQuery          = "INSERT INTO items (name, price, amount) VALUES ($1, $2, $3) ON CONFLICT (name) DO UPDATE SET price = EXCLUDED.price, amount = EXCLUDED.amount;"
 	updateItemPriceQuery  = "UPDATE items SET price = $2 WHERE name = $1;"
 	updateItemAmountQuery = "UPDATE items SET amount = MAX(amount + $2, 0) WHERE name = $1;"
 	getItemQuery          = "SELECT name, price, amount FROM items WHERE name = $1;"

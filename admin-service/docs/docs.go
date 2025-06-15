@@ -15,6 +15,43 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/v1/admins/auth": {
+            "get": {
+                "description": "Checks if user is admin.",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Secret auth code",
+                        "name": "code",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.IsAdminResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.StatusResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/v1/admins/register": {
             "post": {
                 "description": "Registers a new admin.",
@@ -40,13 +77,13 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/dto.StatusResponse"
+                            "$ref": "#/definitions/models.StatusResponse"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/dto.StatusResponse"
+                            "$ref": "#/definitions/models.StatusResponse"
                         }
                     }
                 }
@@ -54,17 +91,6 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "dto.StatusResponse": {
-            "type": "object",
-            "properties": {
-                "message": {
-                    "type": "string"
-                },
-                "user": {
-                    "type": "string"
-                }
-            }
-        },
         "models.Admin": {
             "type": "object",
             "properties": {
@@ -75,18 +101,40 @@ const docTemplate = `{
                     "type": "string"
                 }
             }
+        },
+        "models.IsAdminResponse": {
+            "type": "object",
+            "properties": {
+                "admin_name": {
+                    "type": "string"
+                },
+                "is_admin": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "models.StatusResponse": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string"
+                },
+                "user": {
+                    "type": "string"
+                }
+            }
         }
     }
 }`
 
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{
-	Version:          "",
-	Host:             "",
-	BasePath:         "",
+	Version:          "1.0",
+	Host:             "localhost:8082",
+	BasePath:         "/",
 	Schemes:          []string{},
-	Title:            "",
-	Description:      "",
+	Title:            "Gateway",
+	Description:      "Admin service for managing administrators and items in the storage.",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,
 	LeftDelim:        "{{",

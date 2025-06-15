@@ -2,11 +2,9 @@ package handlers
 
 import (
 	"net/http"
-	"strconv"
 
 	"github.com/zemld/Shop/user-service/db"
 	"github.com/zemld/Shop/user-service/domain/dto"
-	"github.com/zemld/Shop/user-service/domain/models"
 	"github.com/zemld/Shop/user-service/internal"
 )
 
@@ -20,33 +18,28 @@ import (
 // @failure 500 {object} dto.StatusResponse
 // @router /v1/users/register [post]
 func RegisterUserHandler(w http.ResponseWriter, r *http.Request) {
-	name := r.URL.Query().Get("name")
-	balance, err := strconv.ParseFloat(r.URL.Query().Get("balance"), 64)
-	if name == "" || err != nil || balance < 0 {
+	user, err := internal.ValidateUserFromRequest(r)
+	if err != nil {
 		internal.WriteResponse(
 			w,
 			dto.StatusResponse{
-				User:    name,
+				User:    user.Name,
 				Message: "You must provide a valid name and balance for the user.",
 			},
 			http.StatusBadRequest)
 		return
 	}
 
-	err = db.CreateDBConnectionAndRegisterUser(db.UsersDB, name, balance)
+	err = db.CreateDBConnectionAndRegisterUser(db.UsersDB, user.Name, user.Balance)
 	if err != nil {
 		internal.WriteResponse(
 			w,
 			dto.StatusResponse{
-				User:    name,
+				User:    user.Name,
 				Message: "Error while registering user: " + err.Error(),
 			},
 			http.StatusInternalServerError)
 		return
-	}
-	user := models.User{
-		Name:    name,
-		Balance: balance,
 	}
 	internal.WriteResponse(w, user, http.StatusOK)
 }

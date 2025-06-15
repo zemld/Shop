@@ -7,7 +7,7 @@ import (
 	"github.com/jackc/pgx/v5"
 )
 
-func CreateDBConnectionAndCheckAdmin(dbConnection string, username string, createTableQuery ...string) (bool, error) {
+func CreateDBConnectionAndCheckAdmin(dbConnection string, code string, createTableQuery ...string) (string, error) {
 	createTableUsersQuery := createAdminTableQuery
 	if len(createTableQuery) > 0 {
 		log.Println("Using custom create table query for users")
@@ -16,38 +16,37 @@ func CreateDBConnectionAndCheckAdmin(dbConnection string, username string, creat
 
 	db, err := ConnectDB(dbConnection)
 	if err != nil {
-		return false, err
+		return "", err
 	}
 	defer db.Close()
 
 	if err := CreateTable(db, createTableUsersQuery); err != nil {
-		return false, err
+		return "", err
 	}
 
-	exists, err := checkIsAdmin(db, username)
+	adminName, err := checkIsAdmin(db, code)
 	if err != nil {
-		return false, err
+		return "", err
 	}
 
-	return exists, nil
+	return adminName, nil
 }
 
-func checkIsAdmin(db *sql.DB, username string) (bool, error) {
+func checkIsAdmin(db *sql.DB, code string) (string, error) {
 	if db == nil {
-		return false, pgx.ErrNoRows
+		return "", pgx.ErrNoRows
 	}
 
-	var exists int
+	var adminName string
 	ctx, cancel := getContext()
 	defer cancel()
-	err := db.QueryRowContext(ctx, checkIsAdminQuery, username).Scan(&exists)
-	doesExist := exists == 1
+	err := db.QueryRowContext(ctx, checkIsAdminQuery, code).Scan(&adminName)
 	if err != nil {
 		if err == sql.ErrNoRows {
-			return false, nil
+			return "", nil
 		}
-		return false, err
+		return "", err
 	}
 
-	return doesExist, nil
+	return adminName, nil
 }

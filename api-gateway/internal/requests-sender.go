@@ -7,8 +7,13 @@ import (
 	"net/url"
 )
 
-func SendRequestToUserService(path string, queryParams url.Values) (*http.Response, error) {
-	request, _ := http.NewRequest("GET", fmt.Sprintf("http://user-service:8081%s", path), nil)
+const (
+	GET  = "GET"
+	POST = "POST"
+)
+
+func SendRequestToUserService(method string, path string, queryParams url.Values) (*http.Response, error) {
+	request, _ := http.NewRequest(method, fmt.Sprintf("http://user-service:8081%s", path), nil)
 	if len(queryParams) > 0 {
 		q := request.URL.Query()
 		for key, values := range queryParams {

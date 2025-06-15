@@ -17,6 +17,7 @@ func main() {
 	router := chi.NewRouter()
 
 	router.Post("/v1/admins/register", handlers.RegisterAdminHandler)
+	router.Get("/v1/admins/auth", handlers.AuthentificateAdminHandler)
 
 	fs := http.FileServer(http.Dir("./docs"))
 	router.Handle("/docs/*", http.StripPrefix("/docs/", fs))

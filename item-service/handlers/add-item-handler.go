@@ -27,7 +27,7 @@ func AddItemHandler(w http.ResponseWriter, r *http.Request) {
 		}, http.StatusBadRequest)
 		return
 	}
-	err = db.CreateDBConnectionAndAddItem(db.ItemsDB, item)
+	updatedItem, err := db.AddItem(db.ItemsDB, item)
 	if err != nil {
 		internal.WriteResponse(w, models.ItemResponse{
 			Item:    item,
@@ -36,7 +36,7 @@ func AddItemHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	internal.WriteResponse(w, models.ItemResponse{
-		Item:    item,
+		Item:    updatedItem,
 		Message: "Item added successfully",
 	}, http.StatusOK)
 }

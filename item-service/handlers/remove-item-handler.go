@@ -26,7 +26,7 @@ func RemoveItemHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	item := models.Item{Name: itemName}
-	err := db.CreateDBConnectionAndRemoveItem(db.ItemsDB, item)
+	updatedItem, err := db.RemoveItem(db.ItemsDB, item)
 	if err != nil {
 		internal.WriteResponse(w, models.ItemResponse{
 			Item:    item,
@@ -35,7 +35,7 @@ func RemoveItemHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	internal.WriteResponse(w, models.ItemResponse{
-		Item:    item,
+		Item:    updatedItem,
 		Message: "Item removed successfully",
 	}, http.StatusOK)
 }

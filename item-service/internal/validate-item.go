@@ -8,11 +8,14 @@ import (
 )
 
 func ValidateItemFromRequest(r *http.Request) (models.Item, error) {
-	name := r.URL.Query().Get("name")
-	priceStr := r.URL.Query().Get("price")
-	amountStr := r.URL.Query().Get("amount")
+	name, amount, err := ValidateItemNameAndAmountFromRequest(r)
+	if err != nil {
+		return models.Item{}, err
+	}
 
-	if name == "" || priceStr == "" || amountStr == "" {
+	priceStr := r.URL.Query().Get("price")
+
+	if priceStr == "" {
 		return models.Item{}, &models.ValidationError{Message: "Invalid item data"}
 	}
 
@@ -21,14 +24,25 @@ func ValidateItemFromRequest(r *http.Request) (models.Item, error) {
 		return models.Item{}, &models.ValidationError{Message: "Invalid price"}
 	}
 
-	amount, err := strconv.Atoi(amountStr)
-	if err != nil || amount < 0 {
-		return models.Item{}, &models.ValidationError{Message: "Invalid amount"}
-	}
-
 	return models.Item{
 		Name:   name,
 		Price:  price,
 		Amount: amount,
 	}, nil
+}
+
+func ValidateItemNameAndAmountFromRequest(r *http.Request) (string, int, error) {
+	name := r.URL.Query().Get("name")
+	amountStr := r.URL.Query().Get("amount")
+
+	if name == "" || amountStr == "" {
+		return "", 0, &models.ValidationError{Message: "Invalid item data"}
+	}
+
+	amount, err := strconv.Atoi(amountStr)
+	if err != nil || amount < 0 {
+		return "", 0, &models.ValidationError{Message: "Invalid amount"}
+	}
+
+	return name, amount, nil
 }

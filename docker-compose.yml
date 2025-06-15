@@ -47,8 +47,28 @@ services:
       - "5433:5432"
     volumes:
       - admin-db-data:/var/lib/postgresql/data
-  
+
+  item-service:
+    build:
+      context: ./item-service
+      dockerfile: build/Dockerfile
+    ports:
+      - "8083:8083"
+    depends_on:
+      - item-db
+
+  item-db:
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: item
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: itemdb
+    ports:
+      - "5434:5432"
+    volumes:
+      - item-db-data:/var/lib/postgresql/data
 
 volumes:
   user-db-data:
   admin-db-data:
+  item-db-data:

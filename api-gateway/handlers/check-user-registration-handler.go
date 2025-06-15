@@ -30,7 +30,7 @@ func CheckUserRegisteredHanlder(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	log.Printf("Parsed user: %s\n", user)
-	response, err := internal.SendRequestToUserService(r.URL.Path, nil)
+	response, err := internal.SendRequestToUserService(internal.GET, r.URL.Path, nil)
 	if err != nil {
 		internal.WriteResponse(w, dto.StatusResponse{
 			User:    user,
@@ -38,5 +38,5 @@ func CheckUserRegisteredHanlder(w http.ResponseWriter, r *http.Request) {
 		}, http.StatusInternalServerError)
 		return
 	}
-	internal.TryParseResponseBodyAndWriteResponse(w, response, user)
+	internal.TryParseResponseBodyAndWriteResponse(w, response, dto.UserRegisteredResponseType)
 }

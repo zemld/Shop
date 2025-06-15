@@ -1,0 +1,43 @@
+definitions:
+  dto.StatusResponse:
+    properties:
+      message:
+        type: string
+      user:
+        type: string
+    type: object
+  models.Admin:
+    properties:
+      code:
+        type: string
+      username:
+        type: string
+    type: object
+info:
+  contact: {}
+paths:
+  /v1/admins/register:
+    post:
+      description: Registers a new admin.
+      parameters:
+      - description: Admin which you want to register
+        in: query
+        name: name
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Admin'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.StatusResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.StatusResponse'
+swagger: "2.0"

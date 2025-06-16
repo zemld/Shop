@@ -20,3 +20,9 @@ type ItemDeliveredResponse struct {
 	Message   string `json:"message"`
 	Delivered int    `json:"delivered"`
 }
+
+type ItemWithNewPriceResponse struct {
+	Item     Item    `json:"item"`
+	Message  string  `json:"message"`
+	OldPrice float64 `json:"old_price"`
+}

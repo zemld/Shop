@@ -14,11 +14,27 @@ definitions:
       is_admin:
         type: boolean
     type: object
+  models.Item:
+    properties:
+      amount:
+        type: integer
+      name:
+        type: string
+      price:
+        type: number
+    type: object
+  models.ItemResponse:
+    properties:
+      item:
+        $ref: '#/definitions/models.Item'
+      message:
+        type: string
+    type: object
   models.StatusResponse:
     properties:
       message:
         type: string
-      user:
+      name:
         type: string
     type: object
 host: localhost:8082
@@ -68,6 +84,45 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/models.Admin'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.StatusResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.StatusResponse'
+  /v1/items/add:
+    post:
+      description: Adds item to store.
+      parameters:
+      - description: Secret auth code
+        in: query
+        name: secret
+        required: true
+        type: string
+      - description: Item name which you want to add
+        in: query
+        name: name
+        required: true
+        type: string
+      - description: Cost of the item
+        in: query
+        name: price
+        required: true
+        type: number
+      - description: Amount of the item in stock
+        in: query
+        name: amount
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.ItemResponse'
         "400":
           description: Bad Request
           schema:

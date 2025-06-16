@@ -88,6 +88,64 @@ const docTemplate = `{
                     }
                 }
             }
+        },
+        "/v1/items/add": {
+            "post": {
+                "description": "Adds item to store.",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Secret auth code",
+                        "name": "secret",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Item name which you want to add",
+                        "name": "name",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "number",
+                        "description": "Cost of the item",
+                        "name": "price",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Amount of the item in stock",
+                        "name": "amount",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.ItemResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.StatusResponse"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
@@ -113,13 +171,38 @@ const docTemplate = `{
                 }
             }
         },
+        "models.Item": {
+            "type": "object",
+            "properties": {
+                "amount": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "price": {
+                    "type": "number"
+                }
+            }
+        },
+        "models.ItemResponse": {
+            "type": "object",
+            "properties": {
+                "item": {
+                    "$ref": "#/definitions/models.Item"
+                },
+                "message": {
+                    "type": "string"
+                }
+            }
+        },
         "models.StatusResponse": {
             "type": "object",
             "properties": {
                 "message": {
                     "type": "string"
                 },
-                "user": {
+                "name": {
                     "type": "string"
                 }
             }

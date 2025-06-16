@@ -15,6 +15,7 @@ import (
 // @produce json
 // @success 200 {object} models.ItemDeliveredResponse
 // @failure 400 {object} models.StatusResponse
+// @failure 403 {object} models.StatusResponse
 // @failure 500 {object} models.StatusResponse
 // @router /v1/items/deliver [post]
 func DeliverItemHandler(w http.ResponseWriter, r *http.Request) {

@@ -14,6 +14,7 @@ import (
 // @produce json
 // @success 200 {object} models.IsAdminResponse
 // @failure 400 {object} models.StatusResponse
+// @failure 403 {object} models.StatusResponse
 // @failure 500 {object} models.StatusResponse
 // @router /v1/admins/auth [get]
 func AuthentificateAdminHandler(w http.ResponseWriter, r *http.Request) {

@@ -18,11 +18,19 @@ import (
 // @failure 500 {object} models.StatusResponse
 // @router /v1/items/buy [post]
 func BuyItemHandler(w http.ResponseWriter, r *http.Request) {
-	name, amount, err := internal.ValidateItemNameAndAmountFromRequest(r)
+	name, err := internal.ValidateItemNameFromRequest(r)
 	if err != nil {
 		internal.WriteResponse(w, models.StatusResponse{
 			Name:    name,
-			Message: err.Error(),
+			Message: "Incorrect item name",
+		}, http.StatusBadRequest)
+		return
+	}
+	amount, err := internal.ValidateItemAmountFromRequest(r)
+	if err != nil {
+		internal.WriteResponse(w, models.StatusResponse{
+			Name:    name,
+			Message: "Incorrect item amount",
 		}, http.StatusBadRequest)
 		return
 	}

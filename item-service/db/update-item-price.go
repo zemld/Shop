@@ -6,17 +6,15 @@ import (
 	"github.com/zemld/Shop/item-service/domain/models"
 )
 
-func UpdateItemPrice(dbConnection string, item models.Item, newPrice float64, createTableQuery ...string) (models.Item, error) {
+func UpdateItemPrice(db *sql.DB, item models.Item, newPrice float64, createTableQuery ...string) (models.Item, error) {
 	creationQuery := createItemsTableQuery
 	if len(createTableQuery) > 0 {
 		creationQuery = createTableQuery[0]
 	}
 
-	db, err := ConnectDB(dbConnection)
-	if err != nil {
-		return models.Item{}, err
+	if db == nil {
+		return models.Item{}, sql.ErrNoRows
 	}
-	defer db.Close()
 
 	if err := CreateTable(db, creationQuery); err != nil {
 		return models.Item{}, err

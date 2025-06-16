@@ -8,20 +8,17 @@ import (
 )
 
 func ValidateItemFromRequest(r *http.Request) (models.Item, error) {
-	name, amount, err := ValidateItemNameAndAmountFromRequest(r)
+	name, err := ValidateItemNameFromRequest(r)
 	if err != nil {
-		return models.Item{}, err
+		return models.Item{}, &models.ValidationError{Message: "Invalid item name"}
 	}
-
-	priceStr := r.URL.Query().Get("price")
-
-	if priceStr == "" {
-		return models.Item{}, &models.ValidationError{Message: "Invalid item data"}
+	price, err := ValidateItemPriceFromRequest(r)
+	if err != nil {
+		return models.Item{}, &models.ValidationError{Message: "Invalid item price"}
 	}
-
-	price, err := strconv.ParseFloat(priceStr, 64)
-	if err != nil || price < 0 {
-		return models.Item{}, &models.ValidationError{Message: "Invalid price"}
+	amount, err := ValidateItemAmountFromRequest(r)
+	if err != nil {
+		return models.Item{}, &models.ValidationError{Message: "Invalid item amount"}
 	}
 
 	return models.Item{
@@ -31,18 +28,38 @@ func ValidateItemFromRequest(r *http.Request) (models.Item, error) {
 	}, nil
 }
 
-func ValidateItemNameAndAmountFromRequest(r *http.Request) (string, int, error) {
+func ValidateItemNameFromRequest(r *http.Request) (string, error) {
 	name := r.URL.Query().Get("name")
-	amountStr := r.URL.Query().Get("amount")
+	if name == "" {
+		return "", &models.ValidationError{Message: "Item name is required"}
+	}
+	return name, nil
+}
 
-	if name == "" || amountStr == "" {
-		return "", 0, &models.ValidationError{Message: "Invalid item data"}
+func ValidateItemPriceFromRequest(r *http.Request) (float64, error) {
+	priceStr := r.URL.Query().Get("price")
+	if priceStr == "" {
+		return 0, &models.ValidationError{Message: "Item price is required"}
+	}
+
+	price, err := strconv.ParseFloat(priceStr, 64)
+	if err != nil || price < 0 {
+		return 0, &models.ValidationError{Message: "Invalid item price"}
+	}
+
+	return price, nil
+}
+
+func ValidateItemAmountFromRequest(r *http.Request) (int, error) {
+	amountStr := r.URL.Query().Get("amount")
+	if amountStr == "" {
+		return 0, &models.ValidationError{Message: "Item amount is required"}
 	}
 
 	amount, err := strconv.Atoi(amountStr)
 	if err != nil || amount < 0 {
-		return "", 0, &models.ValidationError{Message: "Invalid amount"}
+		return 0, &models.ValidationError{Message: "Invalid item amount"}
 	}
 
-	return name, amount, nil
+	return amount, nil
 }

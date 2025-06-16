@@ -8,16 +8,16 @@ import (
 	"github.com/zemld/Shop/item-service/internal"
 )
 
-// @description Makes item purchase.
+// @description Change price for item.
 // @tag.name Items operations
-// @param name query string true "Item name which you want to buy"
-// @param amount query int true "Amount of the item to buy"
+// @param name query string true "Item name which you want to change price for"
+// @param price query number true "New price of the item"
 // @produce json
-// @success 200 {object} models.ItemBoughtResponse
+// @success 200 {object} models.ItemWithNewPriceResponse
 // @failure 400 {object} models.StatusResponse
 // @failure 500 {object} models.StatusResponse
-// @router /v1/items/buy [post]
-func BuyItemHandler(w http.ResponseWriter, r *http.Request) {
+// @router /v1/items/update-price [post]
+func UpdateItemPriceHandler(w http.ResponseWriter, r *http.Request) {
 	name, err := internal.ValidateItemNameFromRequest(r)
 	if err != nil {
 		internal.WriteResponse(w, models.StatusResponse{
@@ -26,11 +26,11 @@ func BuyItemHandler(w http.ResponseWriter, r *http.Request) {
 		}, http.StatusBadRequest)
 		return
 	}
-	amount, err := internal.ValidateItemAmountFromRequest(r)
+	newPrice, err := internal.ValidateItemPriceFromRequest(r)
 	if err != nil {
 		internal.WriteResponse(w, models.StatusResponse{
 			Name:    name,
-			Message: "Incorrect item amount",
+			Message: "Incorrect item price",
 		}, http.StatusBadRequest)
 		return
 	}
@@ -52,21 +52,20 @@ func BuyItemHandler(w http.ResponseWriter, r *http.Request) {
 		db.RollbackTransaction(tx)
 		return
 	}
-	canBuyCnt := min(itemInStore.Amount, amount)
-	item, err := db.UpdateItemAmount(database, name, -canBuyCnt)
+	oldPrice := itemInStore.Price
+	updatedItem, err := db.UpdateItemPrice(database, itemInStore, newPrice)
 	if err != nil {
 		internal.WriteResponse(w, models.StatusResponse{
-			Name:    item.Name,
+			Name:    itemInStore.Name,
 			Message: err.Error(),
 		}, http.StatusInternalServerError)
 		db.RollbackTransaction(tx)
 		return
 	}
-	db.CommitTransaction(tx)
-	defer db.CloseDB(database)
-	internal.WriteResponse(w, models.ItemBoughtResponse{
-		Item:    item,
-		Message: "Item purchased",
-		Bought:  canBuyCnt,
+	internal.WriteResponse(w, models.ItemWithNewPriceResponse{
+		Item:     updatedItem,
+		Message:  "Item price updated successfully",
+		OldPrice: oldPrice,
 	}, http.StatusOK)
+	db.CommitTransaction(tx)
 }

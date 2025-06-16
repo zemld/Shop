@@ -23,6 +23,15 @@ definitions:
       price:
         type: number
     type: object
+  models.ItemBoughtResponse:
+    properties:
+      bought:
+        type: integer
+      item_in_store:
+        $ref: '#/definitions/models.Item'
+      message:
+        type: string
+    type: object
   models.ItemResponse:
     properties:
       item:
@@ -123,6 +132,35 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/models.ItemResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.StatusResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.StatusResponse'
+  /v1/items/buy:
+    post:
+      description: Makes item purchase.
+      parameters:
+      - description: Item name which you want to buy
+        in: query
+        name: name
+        required: true
+        type: string
+      - description: Amount of the item to buy
+        in: query
+        name: amount
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.ItemBoughtResponse'
         "400":
           description: Bad Request
           schema:

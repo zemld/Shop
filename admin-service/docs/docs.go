@@ -146,6 +146,50 @@ const docTemplate = `{
                     }
                 }
             }
+        },
+        "/v1/items/buy": {
+            "post": {
+                "description": "Makes item purchase.",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Item name which you want to buy",
+                        "name": "name",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Amount of the item to buy",
+                        "name": "amount",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.ItemBoughtResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.StatusResponse"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
@@ -182,6 +226,20 @@ const docTemplate = `{
                 },
                 "price": {
                     "type": "number"
+                }
+            }
+        },
+        "models.ItemBoughtResponse": {
+            "type": "object",
+            "properties": {
+                "bought": {
+                    "type": "integer"
+                },
+                "item_in_store": {
+                    "$ref": "#/definitions/models.Item"
+                },
+                "message": {
+                    "type": "string"
                 }
             }
         },

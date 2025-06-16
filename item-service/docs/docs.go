@@ -54,13 +54,13 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/models.ItemResponse"
+                            "$ref": "#/definitions/models.StatusResponse"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/models.ItemResponse"
+                            "$ref": "#/definitions/models.StatusResponse"
                         }
                     }
                 }
@@ -92,19 +92,19 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/models.ItemResponse"
+                            "$ref": "#/definitions/models.ItemBoughtResponse"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/models.ItemResponse"
+                            "$ref": "#/definitions/models.StatusResponse"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/models.ItemResponse"
+                            "$ref": "#/definitions/models.StatusResponse"
                         }
                     }
                 }
@@ -136,19 +136,19 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/models.ItemResponse"
+                            "$ref": "#/definitions/models.ItemDeliveredResponse"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/models.ItemResponse"
+                            "$ref": "#/definitions/models.StatusResponse"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/models.ItemResponse"
+                            "$ref": "#/definitions/models.StatusResponse"
                         }
                     }
                 }
@@ -179,13 +179,13 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/models.ItemResponse"
+                            "$ref": "#/definitions/models.StatusResponse"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/models.ItemResponse"
+                            "$ref": "#/definitions/models.StatusResponse"
                         }
                     }
                 }
@@ -207,6 +207,34 @@ const docTemplate = `{
                 }
             }
         },
+        "models.ItemBoughtResponse": {
+            "type": "object",
+            "properties": {
+                "bought": {
+                    "type": "integer"
+                },
+                "item_in_store": {
+                    "$ref": "#/definitions/models.Item"
+                },
+                "message": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.ItemDeliveredResponse": {
+            "type": "object",
+            "properties": {
+                "delivered": {
+                    "type": "integer"
+                },
+                "item_in_store": {
+                    "$ref": "#/definitions/models.Item"
+                },
+                "message": {
+                    "type": "string"
+                }
+            }
+        },
         "models.ItemResponse": {
             "type": "object",
             "properties": {
@@ -214,6 +242,17 @@ const docTemplate = `{
                     "$ref": "#/definitions/models.Item"
                 },
                 "message": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.StatusResponse": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string"
+                },
+                "name": {
                     "type": "string"
                 }
             }

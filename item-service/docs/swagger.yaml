@@ -9,11 +9,36 @@ definitions:
       price:
         type: number
     type: object
+  models.ItemBoughtResponse:
+    properties:
+      bought:
+        type: integer
+      item_in_store:
+        $ref: '#/definitions/models.Item'
+      message:
+        type: string
+    type: object
+  models.ItemDeliveredResponse:
+    properties:
+      delivered:
+        type: integer
+      item_in_store:
+        $ref: '#/definitions/models.Item'
+      message:
+        type: string
+    type: object
   models.ItemResponse:
     properties:
       item:
         $ref: '#/definitions/models.Item'
       message:
+        type: string
+    type: object
+  models.StatusResponse:
+    properties:
+      message:
+        type: string
+      name:
         type: string
     type: object
 host: localhost:8083
@@ -52,11 +77,11 @@ paths:
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/models.ItemResponse'
+            $ref: '#/definitions/models.StatusResponse'
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/models.ItemResponse'
+            $ref: '#/definitions/models.StatusResponse'
   /v1/items/buy:
     post:
       description: Makes item purchase.
@@ -77,15 +102,15 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/models.ItemResponse'
+            $ref: '#/definitions/models.ItemBoughtResponse'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/models.ItemResponse'
+            $ref: '#/definitions/models.StatusResponse'
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/models.ItemResponse'
+            $ref: '#/definitions/models.StatusResponse'
   /v1/items/deliver:
     post:
       description: Makes delivery for item.
@@ -106,15 +131,15 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/models.ItemResponse'
+            $ref: '#/definitions/models.ItemDeliveredResponse'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/models.ItemResponse'
+            $ref: '#/definitions/models.StatusResponse'
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/models.ItemResponse'
+            $ref: '#/definitions/models.StatusResponse'
   /v1/items/remove:
     post:
       description: Remove an item.
@@ -134,9 +159,9 @@ paths:
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/models.ItemResponse'
+            $ref: '#/definitions/models.StatusResponse'
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/models.ItemResponse'
+            $ref: '#/definitions/models.StatusResponse'
 swagger: "2.0"

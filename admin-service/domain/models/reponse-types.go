@@ -8,4 +8,5 @@ const (
 	DeliverItemResponseType  = "update_amount"
 	PurchaseItemResponseType = "purchase_item"
 	UpdatePriceResponseType  = "update_price"
+	ItemResponseType         = "item_response"
 )

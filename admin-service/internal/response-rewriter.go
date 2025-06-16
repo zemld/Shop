@@ -46,5 +46,8 @@ func getResponseStruct(responseType string) any {
 	if responseType == models.UpdatePriceResponseType {
 		return models.ItemWithNewPriceResponse{}
 	}
+	if responseType == models.ItemResponseType {
+		return models.ItemResponse{}
+	}
 	return models.StatusResponse{}
 }

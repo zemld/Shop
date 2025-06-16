@@ -1,6 +1,6 @@
 package models
 
 type StatusResponse struct {
-	User    string `json:"user"`
+	Name    string `json:"name"`
 	Message string `json:"message"`
 }

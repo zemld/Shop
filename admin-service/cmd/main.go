@@ -19,6 +19,7 @@ func main() {
 	router.Post("/v1/admins/register", handlers.RegisterAdminHandler)
 	router.Get("/v1/admins/auth", handlers.AuthentificateAdminHandler)
 	router.Post("/v1/items/add", handlers.AddItemHandler)
+	router.Post("/v1/items/buy", handlers.BuyItemHandler)
 
 	fs := http.FileServer(http.Dir("./docs"))
 	router.Handle("/docs/*", http.StripPrefix("/docs/", fs))

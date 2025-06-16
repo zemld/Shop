@@ -32,6 +32,15 @@ definitions:
       message:
         type: string
     type: object
+  models.ItemDeliveredResponse:
+    properties:
+      delivered:
+        type: integer
+      item_in_store:
+        $ref: '#/definitions/models.Item'
+      message:
+        type: string
+    type: object
   models.ItemResponse:
     properties:
       item:
@@ -161,6 +170,40 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/models.ItemBoughtResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.StatusResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.StatusResponse'
+  /v1/items/deliver:
+    post:
+      description: Makes delivery for item.
+      parameters:
+      - description: Secret auth code for admin
+        in: query
+        name: secret
+        required: true
+        type: string
+      - description: Item name which you want to deliver
+        in: query
+        name: name
+        required: true
+        type: string
+      - description: Amount of the item to deliver
+        in: query
+        name: amount
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.ItemDeliveredResponse'
         "400":
           description: Bad Request
           schema:

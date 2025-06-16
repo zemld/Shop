@@ -190,6 +190,57 @@ const docTemplate = `{
                     }
                 }
             }
+        },
+        "/v1/items/deliver": {
+            "post": {
+                "description": "Makes delivery for item.",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Secret auth code for admin",
+                        "name": "secret",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Item name which you want to deliver",
+                        "name": "name",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Amount of the item to deliver",
+                        "name": "amount",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.ItemDeliveredResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.StatusResponse"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
@@ -233,6 +284,20 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "bought": {
+                    "type": "integer"
+                },
+                "item_in_store": {
+                    "$ref": "#/definitions/models.Item"
+                },
+                "message": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.ItemDeliveredResponse": {
+            "type": "object",
+            "properties": {
+                "delivered": {
                     "type": "integer"
                 },
                 "item_in_store": {

@@ -15,22 +15,22 @@ import (
 // @param amount query int true "Amount of the item in stock"
 // @produce json
 // @success 200 {object} models.ItemResponse
-// @failure 400 {object} models.ItemResponse
-// @failure 500 {object} models.ItemResponse
+// @failure 400 {object} models.StatusResponse
+// @failure 500 {object} models.StatusResponse
 // @router /v1/items/add [post]
 func AddItemHandler(w http.ResponseWriter, r *http.Request) {
 	item, err := internal.ValidateItemFromRequest(r)
 	if err != nil {
-		internal.WriteResponse(w, models.ItemResponse{
-			Item:    item,
+		internal.WriteResponse(w, models.StatusResponse{
+			Name:    item.Name,
 			Message: err.Error(),
 		}, http.StatusBadRequest)
 		return
 	}
 	updatedItem, err := db.AddItem(db.ItemsDB, item)
 	if err != nil {
-		internal.WriteResponse(w, models.ItemResponse{
-			Item:    item,
+		internal.WriteResponse(w, models.StatusResponse{
+			Name:    item.Name,
 			Message: err.Error(),
 		}, http.StatusInternalServerError)
 		return

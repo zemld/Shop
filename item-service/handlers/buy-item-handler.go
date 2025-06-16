@@ -13,29 +13,52 @@ import (
 // @param name query string true "Item name which you want to buy"
 // @param amount query int true "Amount of the item to buy"
 // @produce json
-// @success 200 {object} models.ItemResponse
-// @failure 400 {object} models.ItemResponse
-// @failure 500 {object} models.ItemResponse
+// @success 200 {object} models.ItemBoughtResponse
+// @failure 400 {object} models.StatusResponse
+// @failure 500 {object} models.StatusResponse
 // @router /v1/items/buy [post]
 func BuyItemHandler(w http.ResponseWriter, r *http.Request) {
 	name, amount, err := internal.ValidateItemNameAndAmountFromRequest(r)
 	if err != nil {
-		internal.WriteResponse(w, models.ItemResponse{
-			Item:    models.Item{},
+		internal.WriteResponse(w, models.StatusResponse{
+			Name:    name,
 			Message: err.Error(),
 		}, http.StatusBadRequest)
 		return
 	}
-	item, err := db.UpdateItemAmount(db.ItemsDB, name, -amount)
+	database, tx, err := db.BeginTransaction(db.ItemsDB)
 	if err != nil {
-		internal.WriteResponse(w, models.ItemResponse{
-			Item:    item,
-			Message: err.Error(),
+		internal.WriteResponse(w, models.StatusResponse{
+			Name:    name,
+			Message: "Failed to start transaction: " + err.Error(),
 		}, http.StatusInternalServerError)
 		return
 	}
-	internal.WriteResponse(w, models.ItemResponse{
+	defer db.CloseDB(database)
+	itemInStore, err := db.SelectItem(database, name)
+	if err != nil {
+		internal.WriteResponse(w, models.StatusResponse{
+			Name:    name,
+			Message: "Failed to select item: " + err.Error(),
+		}, http.StatusInternalServerError)
+		db.RollbackTransaction(tx)
+		return
+	}
+	canBuyCnt := min(itemInStore.Amount, amount)
+	item, err := db.UpdateItemAmount(database, name, -canBuyCnt)
+	if err != nil {
+		internal.WriteResponse(w, models.StatusResponse{
+			Name:    item.Name,
+			Message: err.Error(),
+		}, http.StatusInternalServerError)
+		db.RollbackTransaction(tx)
+		return
+	}
+	db.CommitTransaction(tx)
+	defer db.CloseDB(database)
+	internal.WriteResponse(w, models.ItemBoughtResponse{
 		Item:    item,
 		Message: "Item purchased",
+		Bought:  canBuyCnt,
 	}, http.StatusOK)
 }

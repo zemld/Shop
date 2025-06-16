@@ -13,14 +13,14 @@ import (
 // @param name query string true "Item name which you want to remove"
 // @produce json
 // @success 200 {object} models.ItemResponse
-// @failure 400 {object} models.ItemResponse
-// @failure 500 {object} models.ItemResponse
+// @failure 400 {object} models.StatusResponse
+// @failure 500 {object} models.StatusResponse
 // @router /v1/items/remove [post]
 func RemoveItemHandler(w http.ResponseWriter, r *http.Request) {
 	itemName := r.URL.Query().Get("name")
 	if itemName == "" {
-		internal.WriteResponse(w, models.ItemResponse{
-			Item:    models.Item{},
+		internal.WriteResponse(w, models.StatusResponse{
+			Name:    itemName,
 			Message: "Item name is required",
 		}, http.StatusBadRequest)
 		return
@@ -28,8 +28,8 @@ func RemoveItemHandler(w http.ResponseWriter, r *http.Request) {
 	item := models.Item{Name: itemName}
 	updatedItem, err := db.RemoveItem(db.ItemsDB, item)
 	if err != nil {
-		internal.WriteResponse(w, models.ItemResponse{
-			Item:    item,
+		internal.WriteResponse(w, models.StatusResponse{
+			Name:    item.Name,
 			Message: err.Error(),
 		}, http.StatusInternalServerError)
 		return

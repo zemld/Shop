@@ -34,6 +34,15 @@ definitions:
       message:
         type: string
     type: object
+  models.ItemWithNewPriceResponse:
+    properties:
+      item:
+        $ref: '#/definitions/models.Item'
+      message:
+        type: string
+      old_price:
+        type: number
+    type: object
   models.StatusResponse:
     properties:
       message:
@@ -156,6 +165,35 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/models.ItemResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.StatusResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.StatusResponse'
+  /v1/items/update-price:
+    post:
+      description: Change price for item.
+      parameters:
+      - description: Item name which you want to change price for
+        in: query
+        name: name
+        required: true
+        type: string
+      - description: New price of the item
+        in: query
+        name: price
+        required: true
+        type: number
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.ItemWithNewPriceResponse'
         "400":
           description: Bad Request
           schema:

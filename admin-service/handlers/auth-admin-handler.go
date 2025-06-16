@@ -22,7 +22,7 @@ func AuthentificateAdminHandler(w http.ResponseWriter, r *http.Request) {
 	adminName, err := db.CreateDBConnectionAndCheckAdmin(db.AdminDB, secretCode)
 	if err != nil {
 		internal.WriteResponse(w, models.StatusResponse{
-			User:    adminName,
+			Name:    adminName,
 			Message: "Failed to authenticate admin: " + err.Error(),
 		}, http.StatusInternalServerError)
 		return

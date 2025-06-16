@@ -13,29 +13,30 @@ import (
 // @param name query string true "Item name which you want to deliver"
 // @param amount query int true "Amount of the item to deliver"
 // @produce json
-// @success 200 {object} models.ItemResponse
-// @failure 400 {object} models.ItemResponse
-// @failure 500 {object} models.ItemResponse
+// @success 200 {object} models.ItemDeliveredResponse
+// @failure 400 {object} models.StatusResponse
+// @failure 500 {object} models.StatusResponse
 // @router /v1/items/deliver [post]
 func DeliverItemHandler(w http.ResponseWriter, r *http.Request) {
 	name, amount, err := internal.ValidateItemNameAndAmountFromRequest(r)
 	if err != nil {
-		internal.WriteResponse(w, models.ItemResponse{
-			Item:    models.Item{},
+		internal.WriteResponse(w, models.StatusResponse{
+			Name:    name,
 			Message: err.Error(),
 		}, http.StatusBadRequest)
 		return
 	}
-	item, err := db.UpdateItemAmount(db.ItemsDB, name, amount)
+	item, err := db.ConnectToDBAndUpdateItemAmount(db.ItemsDB, name, amount)
 	if err != nil {
-		internal.WriteResponse(w, models.ItemResponse{
-			Item:    item,
+		internal.WriteResponse(w, models.StatusResponse{
+			Name:    item.Name,
 			Message: err.Error(),
 		}, http.StatusInternalServerError)
 		return
 	}
-	internal.WriteResponse(w, models.ItemResponse{
-		Item:    item,
-		Message: "Item delivered",
+	internal.WriteResponse(w, models.ItemDeliveredResponse{
+		Item:      item,
+		Message:   "Item delivered",
+		Delivered: amount,
 	}, http.StatusOK)
 }

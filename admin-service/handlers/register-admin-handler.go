@@ -23,7 +23,7 @@ func RegisterAdminHandler(w http.ResponseWriter, r *http.Request) {
 	adminName := r.URL.Query().Get("name")
 	if adminName == "" {
 		internal.WriteResponse(w, models.StatusResponse{
-			User:    adminName,
+			Name:    adminName,
 			Message: "Admin name is required",
 		}, http.StatusBadRequest)
 		return
@@ -32,7 +32,7 @@ func RegisterAdminHandler(w http.ResponseWriter, r *http.Request) {
 	err := db.CreateDBConnectionAndRegisterAdmin(db.AdminDB, adminName, secretCode)
 	if err != nil {
 		internal.WriteResponse(w, models.StatusResponse{
-			User:    adminName,
+			Name:    adminName,
 			Message: "Failed to register admin: " + err.Error(),
 		}, http.StatusInternalServerError)
 		return

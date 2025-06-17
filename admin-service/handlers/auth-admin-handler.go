@@ -14,6 +14,7 @@ import (
 // @produce json
 // @success 200 {object} models.IsAdminResponse
 // @failure 400 {object} models.StatusResponse
+// @failure 403 {object} models.StatusResponse
 // @failure 500 {object} models.StatusResponse
 // @router /v1/admins/auth [get]
 func AuthentificateAdminHandler(w http.ResponseWriter, r *http.Request) {
@@ -22,7 +23,7 @@ func AuthentificateAdminHandler(w http.ResponseWriter, r *http.Request) {
 	adminName, err := db.CreateDBConnectionAndCheckAdmin(db.AdminDB, secretCode)
 	if err != nil {
 		internal.WriteResponse(w, models.StatusResponse{
-			User:    adminName,
+			Name:    adminName,
 			Message: "Failed to authenticate admin: " + err.Error(),
 		}, http.StatusInternalServerError)
 		return

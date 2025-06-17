@@ -1,4 +1,4 @@
-package dto
+package models
 
 type UserRegistered struct {
 	User         string `json:"user"`

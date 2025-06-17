@@ -16,10 +16,20 @@ import (
 func main() {
 	router := chi.NewRouter()
 
+	// TODO: настроить теги
 	router.Get("/v1/users/{user}", handlers.CheckUserRegisteredHanlder)
 	router.Post("/v1/users/register", handlers.RegisterUserHandler)
 	router.Post("/v1/users/change-balance", handlers.ChangeBalanceHandler)
 	router.Get("/v1/users/balance", handlers.GetUserBalanceHandler)
+
+	router.Post("/v1/admins/register", handlers.RegisterAdminHandler)
+	router.Get("/v1/admins/auth", handlers.AuthentificateAdminHandler)
+
+	router.Post("/v1/items/add", handlers.AddItemHandler)
+	router.Post("/v1/items/buy", handlers.BuyItemHandler)
+	router.Post("/v1/items/deliver", handlers.DeliverItemHandler)
+	router.Post("/v1/items/remove", handlers.RemoveItemHandler)
+	router.Post("/v1/items/update-price", handlers.UpdateItemPriceHandler)
 
 	fs := http.FileServer(http.Dir("./docs"))
 	router.Handle("/docs/*", http.StripPrefix("/docs/", fs))

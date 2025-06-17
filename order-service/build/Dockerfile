@@ -1,5 +1,5 @@
 FROM golang:alpine
 WORKDIR /order-service
-COPY . .
+COPY .. .
 RUN go mod tidy
 CMD ["go", "run", "cmd/main.go"]

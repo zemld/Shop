@@ -68,7 +68,40 @@ services:
     volumes:
       - item-db-data:/var/lib/postgresql/data
 
+  order-service:
+    build:
+      context: ./order-service
+      dockerfile: build/Dockerfile
+    ports:
+      - "8084:8084"
+    depends_on:
+      - order-db
+  
+  order-db:
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: order
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: orderdb
+    ports:
+      - "5435:5432"
+    volumes:
+      - order-db-data:/var/lib/postgresql/data
+  
+  order-outbox-db:
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: order-outbox
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: order-outboxdb
+    ports:
+      - "5436:5432"
+    volumes:
+      - order-outbox-db-data:/var/lib/postgresql/data
+
 volumes:
   user-db-data:
   admin-db-data:
   item-db-data:
+  order-db-data:
+  order-outbox-db-data:

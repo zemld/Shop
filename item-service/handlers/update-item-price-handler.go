@@ -9,7 +9,7 @@ import (
 )
 
 // @description Change price for item.
-// @tag.name Items operations
+// @tags Items
 // @param name query string true "Item name which you want to change price for"
 // @param price query number true "New price of the item"
 // @produce json

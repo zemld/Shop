@@ -99,6 +99,8 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/models.StatusResponse'
+      tags:
+      - Admins
   /v1/admins/register:
     post:
       description: Registers a new admin.
@@ -123,6 +125,8 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/models.StatusResponse'
+      tags:
+      - Admins
   /v1/items/add:
     post:
       description: Adds item to store.
@@ -166,6 +170,8 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/models.StatusResponse'
+      tags:
+      - Items
   /v1/items/buy:
     post:
       description: Makes item purchase.
@@ -195,6 +201,8 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/models.StatusResponse'
+      tags:
+      - Items
   /v1/items/deliver:
     post:
       description: Makes delivery for item.
@@ -233,6 +241,8 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/models.StatusResponse'
+      tags:
+      - Items
   /v1/items/remove:
     post:
       description: Remove an item.
@@ -266,6 +276,8 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/models.StatusResponse'
+      tags:
+      - Items
   /v1/items/update-price:
     post:
       description: Change price for item.
@@ -304,4 +316,6 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/models.StatusResponse'
+      tags:
+      - Items
 swagger: "2.0"

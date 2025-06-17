@@ -8,7 +8,7 @@ import (
 )
 
 // @description Makes delivery for item.
-// @tag.name Items operations
+// @tags Items
 // @param secret query string true "Secret auth code for admin"
 // @param name query string true "Item name which you want to deliver"
 // @param amount query int true "Amount of the item to deliver"

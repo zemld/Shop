@@ -21,6 +21,9 @@ const docTemplate = `{
                 "produces": [
                     "application/json"
                 ],
+                "tags": [
+                    "Users"
+                ],
                 "parameters": [
                     {
                         "type": "string",
@@ -57,6 +60,9 @@ const docTemplate = `{
                 "description": "Changes the balance of a registered user.",
                 "produces": [
                     "application/json"
+                ],
+                "tags": [
+                    "Users"
                 ],
                 "parameters": [
                     {
@@ -102,6 +108,9 @@ const docTemplate = `{
                 "produces": [
                     "application/json"
                 ],
+                "tags": [
+                    "Users"
+                ],
                 "parameters": [
                     {
                         "type": "string",
@@ -145,6 +154,9 @@ const docTemplate = `{
                 "description": "Checks if user is registered.",
                 "produces": [
                     "application/json"
+                ],
+                "tags": [
+                    "Users"
                 ],
                 "parameters": [
                     {

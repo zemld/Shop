@@ -8,7 +8,7 @@ import (
 )
 
 // @description Adds item to store.
-// @tag.name Item operations
+// @tags Items
 // @param secret query string true "Secret auth code"
 // @param name query string true "Item name which you want to add"
 // @param price query float64 true "Cost of the item"

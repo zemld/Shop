@@ -15,6 +15,9 @@
                 "produces": [
                     "application/json"
                 ],
+                "tags": [
+                    "Admins"
+                ],
                 "parameters": [
                     {
                         "type": "string",
@@ -58,6 +61,9 @@
                 "produces": [
                     "application/json"
                 ],
+                "tags": [
+                    "Admins"
+                ],
                 "parameters": [
                     {
                         "type": "string",
@@ -94,6 +100,9 @@
                 "description": "Adds item to store.",
                 "produces": [
                     "application/json"
+                ],
+                "tags": [
+                    "Items"
                 ],
                 "parameters": [
                     {
@@ -159,6 +168,9 @@
                 "produces": [
                     "application/json"
                 ],
+                "tags": [
+                    "Items"
+                ],
                 "parameters": [
                     {
                         "type": "string",
@@ -202,6 +214,9 @@
                 "description": "Makes delivery for item.",
                 "produces": [
                     "application/json"
+                ],
+                "tags": [
+                    "Items"
                 ],
                 "parameters": [
                     {
@@ -260,6 +275,9 @@
                 "produces": [
                     "application/json"
                 ],
+                "tags": [
+                    "Items"
+                ],
                 "parameters": [
                     {
                         "type": "string",
@@ -309,6 +327,9 @@
                 "description": "Change price for item.",
                 "produces": [
                     "application/json"
+                ],
+                "tags": [
+                    "Items"
                 ],
                 "parameters": [
                     {

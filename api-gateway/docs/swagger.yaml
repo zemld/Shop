@@ -113,6 +113,8 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/models.StatusResponse'
+      tags:
+      - Admins
   /v1/admins/register:
     post:
       description: Registers a new admin.
@@ -180,6 +182,8 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/models.StatusResponse'
+      tags:
+      - Items
   /v1/items/buy:
     post:
       description: Makes item purchase.
@@ -209,6 +213,8 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/models.StatusResponse'
+      tags:
+      - Items
   /v1/items/deliver:
     post:
       description: Makes delivery for item.
@@ -247,6 +253,8 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/models.StatusResponse'
+      tags:
+      - Items
   /v1/items/remove:
     post:
       description: Remove an item.
@@ -280,6 +288,8 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/models.StatusResponse'
+      tags:
+      - Items
   /v1/items/update-price:
     post:
       description: Change price for item.
@@ -318,6 +328,8 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/models.StatusResponse'
+      tags:
+      - Items
   /v1/users/{user}:
     get:
       description: Checks if user is registered.
@@ -342,6 +354,8 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/models.StatusResponse'
+      tags:
+      - Files
   /v1/users/balance:
     get:
       description: Returns user's balance.
@@ -366,6 +380,8 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/models.StatusResponse'
+      tags:
+      - Users
   /v1/users/change-balance:
     post:
       description: Changes the balance of a registered user.
@@ -395,6 +411,8 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/models.StatusResponse'
+      tags:
+      - Users
   /v1/users/register:
     post:
       description: Registers a new user.

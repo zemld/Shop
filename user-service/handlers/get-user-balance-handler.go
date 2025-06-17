@@ -10,7 +10,7 @@ import (
 )
 
 // @description Returns user's balance.
-// @tag.name Users operations
+// @tags Users
 // @param user query string true "User whose balance you want to get"
 // @produce json
 // @success 200 {object} models.User

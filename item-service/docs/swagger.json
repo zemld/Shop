@@ -15,6 +15,9 @@
                 "produces": [
                     "application/json"
                 ],
+                "tags": [
+                    "Items"
+                ],
                 "parameters": [
                     {
                         "type": "string",
@@ -66,6 +69,9 @@
                 "produces": [
                     "application/json"
                 ],
+                "tags": [
+                    "Items"
+                ],
                 "parameters": [
                     {
                         "type": "string",
@@ -109,6 +115,9 @@
                 "description": "Makes delivery for item.",
                 "produces": [
                     "application/json"
+                ],
+                "tags": [
+                    "Items"
                 ],
                 "parameters": [
                     {
@@ -154,6 +163,9 @@
                 "produces": [
                     "application/json"
                 ],
+                "tags": [
+                    "Items"
+                ],
                 "parameters": [
                     {
                         "type": "string",
@@ -190,6 +202,9 @@
                 "description": "Change price for item.",
                 "produces": [
                     "application/json"
+                ],
+                "tags": [
+                    "Items"
                 ],
                 "parameters": [
                     {

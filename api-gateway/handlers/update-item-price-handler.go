@@ -8,7 +8,7 @@ import (
 )
 
 // @description Change price for item.
-// @tag.name Items operations
+// @tags Items
 // @param secret query string true "Admin secret code for authorization"
 // @param name query string true "Item name which you want to change price for"
 // @param price query number true "New price of the item"

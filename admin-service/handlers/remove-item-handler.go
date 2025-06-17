@@ -8,7 +8,7 @@ import (
 )
 
 // @description Remove an item.
-// @tag.name Items operations
+// @tags Items
 // @param secret query string true "Admin secret code for authorization"
 // @param name query string true "Item name which you want to remove"
 // @produce json

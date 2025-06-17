@@ -21,6 +21,9 @@ const docTemplate = `{
                 "produces": [
                     "application/json"
                 ],
+                "tags": [
+                    "Items"
+                ],
                 "parameters": [
                     {
                         "type": "string",
@@ -72,6 +75,9 @@ const docTemplate = `{
                 "produces": [
                     "application/json"
                 ],
+                "tags": [
+                    "Items"
+                ],
                 "parameters": [
                     {
                         "type": "string",
@@ -115,6 +121,9 @@ const docTemplate = `{
                 "description": "Makes delivery for item.",
                 "produces": [
                     "application/json"
+                ],
+                "tags": [
+                    "Items"
                 ],
                 "parameters": [
                     {
@@ -160,6 +169,9 @@ const docTemplate = `{
                 "produces": [
                     "application/json"
                 ],
+                "tags": [
+                    "Items"
+                ],
                 "parameters": [
                     {
                         "type": "string",
@@ -196,6 +208,9 @@ const docTemplate = `{
                 "description": "Change price for item.",
                 "produces": [
                     "application/json"
+                ],
+                "tags": [
+                    "Items"
                 ],
                 "parameters": [
                     {

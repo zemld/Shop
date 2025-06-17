@@ -9,7 +9,7 @@ import (
 )
 
 // @description Remove an item.
-// @tag.name Items operations
+// @tags Items
 // @param name query string true "Item name which you want to remove"
 // @produce json
 // @success 200 {object} models.ItemResponse

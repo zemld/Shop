@@ -52,6 +52,8 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/dto.StatusResponse'
+      tags:
+      - Users
   /v1/users/balance:
     get:
       description: Returns user's balance.
@@ -76,6 +78,8 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/dto.StatusResponse'
+      tags:
+      - Users
   /v1/users/change-balance:
     post:
       description: Changes the balance of a registered user.
@@ -105,6 +109,8 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/dto.StatusResponse'
+      tags:
+      - Users
   /v1/users/register:
     post:
       description: Registers a new user.
@@ -134,4 +140,6 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/dto.StatusResponse'
+      tags:
+      - Users
 swagger: "2.0"

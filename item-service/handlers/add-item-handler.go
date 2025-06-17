@@ -9,7 +9,7 @@ import (
 )
 
 // @description Add a new item.
-// @tag.name Items operations
+// @tags Items
 // @param name query string true "Item name which you want to add"
 // @param price query float64 true "Cost of the item"
 // @param amount query int true "Amount of the item in stock"

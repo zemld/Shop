@@ -9,7 +9,7 @@ import (
 )
 
 // @description Checks if user is admin.
-// @tag.name Admin operations
+// @tags Admins
 // @param code query string true "Secret auth code"
 // @produce json
 // @success 200 {object} models.IsAdminResponse

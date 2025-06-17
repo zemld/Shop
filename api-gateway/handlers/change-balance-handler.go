@@ -8,7 +8,7 @@ import (
 )
 
 // @description Changes the balance of a registered user.
-// @tag.name Users operations
+// @tags Users
 // @param name query string true "User whose balance you want to change"
 // @param balance query float64 true "New balance of the user"
 // @produce json

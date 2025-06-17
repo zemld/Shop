@@ -9,7 +9,7 @@ import (
 )
 
 // @description Makes item purchase.
-// @tag.name Items operations
+// @tags Items
 // @param name query string true "Item name which you want to buy"
 // @param amount query int true "Amount of the item to buy"
 // @produce json

@@ -15,6 +15,9 @@
                 "produces": [
                     "application/json"
                 ],
+                "tags": [
+                    "Users"
+                ],
                 "parameters": [
                     {
                         "type": "string",
@@ -51,6 +54,9 @@
                 "description": "Changes the balance of a registered user.",
                 "produces": [
                     "application/json"
+                ],
+                "tags": [
+                    "Users"
                 ],
                 "parameters": [
                     {
@@ -96,6 +102,9 @@
                 "produces": [
                     "application/json"
                 ],
+                "tags": [
+                    "Users"
+                ],
                 "parameters": [
                     {
                         "type": "string",
@@ -139,6 +148,9 @@
                 "description": "Checks if user is registered.",
                 "produces": [
                     "application/json"
+                ],
+                "tags": [
+                    "Users"
                 ],
                 "parameters": [
                     {

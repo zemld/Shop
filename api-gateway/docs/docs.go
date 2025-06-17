@@ -21,6 +21,9 @@ const docTemplate = `{
                 "produces": [
                     "application/json"
                 ],
+                "tags": [
+                    "Admins"
+                ],
                 "parameters": [
                     {
                         "type": "string",
@@ -101,6 +104,9 @@ const docTemplate = `{
                 "produces": [
                     "application/json"
                 ],
+                "tags": [
+                    "Items"
+                ],
                 "parameters": [
                     {
                         "type": "string",
@@ -165,6 +171,9 @@ const docTemplate = `{
                 "produces": [
                     "application/json"
                 ],
+                "tags": [
+                    "Items"
+                ],
                 "parameters": [
                     {
                         "type": "string",
@@ -208,6 +217,9 @@ const docTemplate = `{
                 "description": "Makes delivery for item.",
                 "produces": [
                     "application/json"
+                ],
+                "tags": [
+                    "Items"
                 ],
                 "parameters": [
                     {
@@ -266,6 +278,9 @@ const docTemplate = `{
                 "produces": [
                     "application/json"
                 ],
+                "tags": [
+                    "Items"
+                ],
                 "parameters": [
                     {
                         "type": "string",
@@ -315,6 +330,9 @@ const docTemplate = `{
                 "description": "Change price for item.",
                 "produces": [
                     "application/json"
+                ],
+                "tags": [
+                    "Items"
                 ],
                 "parameters": [
                     {
@@ -373,6 +391,9 @@ const docTemplate = `{
                 "produces": [
                     "application/json"
                 ],
+                "tags": [
+                    "Users"
+                ],
                 "parameters": [
                     {
                         "type": "string",
@@ -409,6 +430,9 @@ const docTemplate = `{
                 "description": "Changes the balance of a registered user.",
                 "produces": [
                     "application/json"
+                ],
+                "tags": [
+                    "Users"
                 ],
                 "parameters": [
                     {
@@ -497,6 +521,9 @@ const docTemplate = `{
                 "description": "Checks if user is registered.",
                 "produces": [
                     "application/json"
+                ],
+                "tags": [
+                    "Files"
                 ],
                 "parameters": [
                     {

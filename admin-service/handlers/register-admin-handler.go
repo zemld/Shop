@@ -18,8 +18,6 @@ import (
 // @failure 500 {object} models.StatusResponse
 // @router /v1/admins/register [post]
 func RegisterAdminHandler(w http.ResponseWriter, r *http.Request) {
-	// получаю секретный код администратора и отправляю запрос на сохранение в бд.
-	// возвращаю ответ с кодом 200, если всё успешно, или 500, если произошла ошибка.
 	adminName := r.URL.Query().Get("name")
 	if adminName == "" {
 		internal.WriteResponse(w, models.StatusResponse{

@@ -1,4 +1,4 @@
-package dto
+package models
 
 const (
 	UserRegisteredResponseType = "UserRegistered"

@@ -6,6 +6,7 @@ import (
 	"github.com/go-chi/chi/v5"
 	httpSwagger "github.com/swaggo/http-swagger"
 	"github.com/zemld/Shop/item-service/handlers"
+	"github.com/zemld/Shop/item-service/mq"
 )
 
 // @title Item Service
@@ -25,5 +26,9 @@ func main() {
 	fs := http.FileServer(http.Dir("./docs"))
 	router.Handle("/docs/*", http.StripPrefix("/docs/", fs))
 	router.Get("/swagger/*", httpSwagger.Handler(httpSwagger.URL("http://localhost:8083/docs/swagger.json")))
+
+	go mq.HandleNewOrder()
+	go mq.HandleCanceledOrder()
+
 	http.ListenAndServe(":8083", router)
 }

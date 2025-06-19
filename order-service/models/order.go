@@ -13,5 +13,5 @@ type ItemInOrder struct {
 type OrderMsg struct {
 	Items []ItemInOrder `json:"items"`
 	User  string        `json:"user"`
-	Id    int           `json:"id"`
+	Id    int64         `json:"id"`
 }

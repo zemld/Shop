@@ -31,7 +31,7 @@ func PayForOrder() {
 		}
 		orderCost := getOrderCost(order)
 		query := make(map[string]string)
-		query["user"] = order.User
+		query["name"] = order.User
 		userBalanceResponse, err := SendRequestToUserService(constants.GET, constants.GetUserBalance, query)
 		if err != nil {
 			log.Printf("Error sending request to user service: %v", err)

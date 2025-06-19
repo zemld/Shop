@@ -9,7 +9,7 @@ import (
 
 // @description Returns user's balance.
 // @tags Users
-// @param user query string true "User whose balance you want to get"
+// @param name query string true "User whose balance you want to get"
 // @produce json
 // @success 200 {object} models.User
 // @failure 400 {object} models.StatusResponse
@@ -19,7 +19,7 @@ func GetUserBalanceHandler(w http.ResponseWriter, r *http.Request) {
 	response, err := internal.SendRequestToUserService(internal.GET, r.URL.Path, r.URL.Query())
 	if err != nil {
 		internal.WriteResponse(w, models.StatusResponse{
-			Name:    r.URL.Query().Get("user"),
+			Name:    r.URL.Query().Get("name"),
 			Message: "Can't receive response from user service.",
 		}, http.StatusInternalServerError)
 		return

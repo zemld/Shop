@@ -28,7 +28,7 @@ const docTemplate = `{
                     {
                         "type": "string",
                         "description": "User whose balance you want to get",
-                        "name": "user",
+                        "name": "name",
                         "in": "query",
                         "required": true
                     }

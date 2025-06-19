@@ -11,14 +11,14 @@ import (
 
 // @description Returns user's balance.
 // @tags Users
-// @param user query string true "User whose balance you want to get"
+// @param name query string true "User whose balance you want to get"
 // @produce json
 // @success 200 {object} models.User
 // @failure 400 {object} dto.StatusResponse
 // @failure 500 {object} dto.StatusResponse
 // @router /v1/users/balance [get]
 func GetUserBalanceHandler(w http.ResponseWriter, r *http.Request) {
-	user := r.URL.Query().Get("user")
+	user := r.URL.Query().Get("name")
 	if user == "" {
 		internal.WriteResponse(
 			w,

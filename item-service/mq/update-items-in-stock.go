@@ -12,7 +12,7 @@ func updateItemsInStock(order models.OrderMsg, isPurchase bool) (models.OrderMsg
 	}
 	defer dbConn.Close()
 	var updatedOrder models.OrderMsg
-	var updatedItems []models.ItemInOrder
+	var updatedItems []models.Item
 	for _, item := range order.Items {
 		var updatedItem models.Item
 		var err error
@@ -24,9 +24,10 @@ func updateItemsInStock(order models.OrderMsg, isPurchase bool) (models.OrderMsg
 		if err != nil {
 			continue
 		}
-		updatedItems = append(updatedItems, models.ItemInOrder{
+		updatedItems = append(updatedItems, models.Item{
 			Name:   updatedItem.Name,
-			Amount: updatedItem.Amount,
+			Amount: item.Amount,
+			Price:  updatedItem.Price,
 		})
 	}
 	updatedOrder.Id = order.Id

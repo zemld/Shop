@@ -31,7 +31,6 @@ func SendMsg(order models.Order) (*nats.Conn, error) {
 		db.RollbackTransaction(tx)
 		return nil, err
 	}
-	defer nc.Close()
 	encodedOrderMsg, _ := json.Marshal(orderMsg)
 	if err = nc.Publish(mq.NewOrders, encodedOrderMsg); err != nil {
 		db.RollbackTransaction(tx)

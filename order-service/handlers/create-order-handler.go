@@ -2,11 +2,12 @@ package handlers
 
 import (
 	"encoding/json"
+	"fmt"
 	"net/http"
 
-	"github.com/zemld/Shop/order-service/db"
 	"github.com/zemld/Shop/order-service/internal"
 	"github.com/zemld/Shop/order-service/models"
+	"github.com/zemld/Shop/order-service/mq"
 )
 
 // @description Create a new order
@@ -14,29 +15,31 @@ import (
 // @param order body models.Order true "User whose balance you want to change"
 // @produce json
 // @success 200 {object} models.Order
-// @failure 400 {object} models.StatusResponse
-// @failure 500 {object} models.StatusResponse
+// @failure 400 {object} models.OrderStatusResponse
+// @failure 500 {object} models.OrderStatusResponse
 // @router /v1/orders/create-order [post]
 func CreateOrderHandler(w http.ResponseWriter, r *http.Request) {
 	var order models.Order
 	if err := json.NewDecoder(r.Body).Decode(&order); err != nil {
-		internal.WriteResponse(w, models.StatusResponse{Message: "Invalid request body: " + err.Error()}, http.StatusBadRequest)
+		internal.WriteResponse(w, models.OrderStatusResponse{Message: "Invalid request body: " + err.Error()}, http.StatusBadRequest)
 		return
 	}
-	database, tx, err := db.BeginTransaction(db.OutboxDB)
+	defer r.Body.Close()
+	nc, err := internal.SendMsg(order)
 	if err != nil {
-		internal.WriteResponse(w, models.StatusResponse{Message: "Can't connect to db: " + err.Error()}, http.StatusInternalServerError)
+		internal.WriteResponse(w, models.OrderStatusResponse{Message: fmt.Sprintf("Can't handle new order: %s", err.Error())}, http.StatusInternalServerError)
 		return
 	}
-	defer db.CloseDB(database)
-	encodedOrder, _ := json.Marshal(order)
-	id, err := db.StoreNewOrder(tx, encodedOrder)
+	defer nc.Close()
+	msg, err := internal.WaitForMessage(nc, mq.Shipping, mq.DefaultTimeout)
 	if err != nil {
-		internal.WriteResponse(w, models.StatusResponse{Message: "Failed to store order: " + err.Error()}, http.StatusInternalServerError)
-		db.RollbackTransaction(tx)
+		internal.WriteResponse(w, models.OrderStatusResponse{Message: fmt.Sprintf("Can't handle new order: %s", err.Error())}, http.StatusInternalServerError)
 		return
 	}
-	_ = id
-	// TODO: положить в очередь.
-	tx.Commit()
+	var createdOrder models.Order
+	if err := json.Unmarshal(msg, &createdOrder); err != nil {
+		internal.WriteResponse(w, models.OrderStatusResponse{Message: fmt.Sprintf("Can't handle new order: %s", err.Error())}, http.StatusInternalServerError)
+		return
+	}
+	internal.WriteResponse(w, createdOrder, http.StatusOK)
 }

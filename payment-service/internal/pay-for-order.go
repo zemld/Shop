@@ -66,7 +66,9 @@ func PayForOrder() {
 			log.Printf("Error updating user balance: %s", updateBalanceResponse.Status)
 			return
 		}
-		if err := nc.Publish(mq.OrderHandled, msg.Data); err != nil {
+		orderMsg.Message = "Order paid successfully"
+		encodedOrder, _ := json.Marshal(orderMsg)
+		if err := nc.Publish(mq.OrderHandled, encodedOrder); err != nil {
 			log.Printf("Error publishing message: %v", err)
 			return
 		}

@@ -1,17 +1,12 @@
 package models
 
 type Order struct {
-	Items []ItemInOrder `json:"items"`
-	User  string        `json:"user"`
-}
-
-type ItemInOrder struct {
-	Name   string `json:"name"`
-	Amount int    `json:"amount"`
+	Items []Item `json:"items"`
+	User  string `json:"user"`
 }
 
 type OrderMsg struct {
-	Items []ItemInOrder `json:"items"`
-	User  string        `json:"user"`
-	Id    int64         `json:"id"`
+	Items []Item `json:"items"`
+	User  string `json:"user"`
+	Id    int64  `json:"id"`
 }

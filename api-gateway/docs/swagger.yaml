@@ -362,7 +362,7 @@ paths:
       parameters:
       - description: User whose balance you want to get
         in: query
-        name: user
+        name: name
         required: true
         type: string
       produces:

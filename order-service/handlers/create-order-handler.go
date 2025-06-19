@@ -31,7 +31,7 @@ func CreateOrderHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	defer nc.Close()
-	msg, err := internal.WaitForMessage(nc, mq.Shipping, mq.DefaultTimeout)
+	msg, err := internal.WaitForMessage(nc, mq.OrderHandled, mq.DefaultTimeout)
 	if err != nil {
 		internal.WriteResponse(w, models.OrderStatusResponse{Message: fmt.Sprintf("Can't handle new order: %s", err.Error())}, http.StatusInternalServerError)
 		return

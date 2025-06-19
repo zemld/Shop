@@ -7,6 +7,8 @@ services:
       - "8080:8080"
     depends_on:
       - user-service
+      - admin-service
+      - order-service
 
   user-service:
     build:
@@ -36,6 +38,7 @@ services:
       - "8082:8082"
     depends_on:
       - admin-db
+      - item-service
 
   admin-db:
     image: postgres:latest
@@ -76,6 +79,8 @@ services:
       - "8084:8084"
     depends_on:
       - order-db
+      - order-outbox-db
+      - nats
   
   order-db:
     image: postgres:latest
@@ -98,6 +103,22 @@ services:
       - "5436:5432"
     volumes:
       - order-outbox-db-data:/var/lib/postgresql/data
+
+  payment-service:
+    build:
+      context: ./payment-service
+      dockerfile: build/Dockerfile
+    ports:
+      - "8085:8085"
+    depends_on:
+      - nats
+
+  nats:
+    image: nats:latest
+    ports:
+      - "4222:4222"
+      - "8222:8222"
+    restart: unless-stopped
 
 volumes:
   user-db-data:

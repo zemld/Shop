@@ -1,0 +1,64 @@
+basePath: /
+definitions:
+  models.Item:
+    properties:
+      amount:
+        type: integer
+      name:
+        type: string
+      price:
+        type: number
+    type: object
+  models.Order:
+    properties:
+      items:
+        items:
+          $ref: '#/definitions/models.Item'
+        type: array
+      user:
+        type: string
+    type: object
+  models.OrderStatusResponse:
+    properties:
+      message:
+        type: string
+      order:
+        $ref: '#/definitions/models.Order'
+      order_id:
+        type: integer
+    type: object
+host: localhost:8084
+info:
+  contact: {}
+  description: API for creating orders.
+  title: Orders Service
+  version: "1.0"
+paths:
+  /v1/orders/create-order:
+    post:
+      description: Create a new order
+      parameters:
+      - description: User whose balance you want to change
+        in: body
+        name: order
+        required: true
+        schema:
+          $ref: '#/definitions/models.Order'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Order'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.OrderStatusResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.OrderStatusResponse'
+      tags:
+      - Orders
+swagger: "2.0"

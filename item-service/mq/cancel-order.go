@@ -9,7 +9,7 @@ import (
 )
 
 func HandleCanceledOrder() {
-	nc, err := nats.Connect(nats.DefaultURL)
+	nc, err := nats.Connect(URL)
 	if err != nil {
 		log.Fatalf("Error connecting mq: %v", err)
 	}
@@ -26,7 +26,7 @@ func HandleCanceledOrder() {
 			return
 		}
 		encodedOrder, _ := json.Marshal(restoredOrder)
-		if err := nc.Publish(CancelOrder, encodedOrder); err != nil {
+		if err := nc.Publish(OrderHandled, encodedOrder); err != nil {
 			log.Printf("Error publishing message: %v", err)
 			return
 		}

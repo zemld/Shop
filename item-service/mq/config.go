@@ -3,7 +3,7 @@ package mq
 import "time"
 
 const (
-	URL = "nats://localhost:4222"
+	URL = "nats://nats:4222"
 )
 
 const (
@@ -12,8 +12,7 @@ const (
 	Payment       = "pay.new"
 	PaymentDone   = "pay.done"
 	PaymentCancel = "pay.cancel"
-	Shipping      = "orders.shipping"
-	CancelOrder   = "orders.cancel"
+	OrderHandled  = "orders.handled"
 )
 
 const (

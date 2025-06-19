@@ -9,7 +9,7 @@ import (
 )
 
 func HandleNewOrder() {
-	nc, err := nats.Connect(nats.DefaultURL)
+	nc, err := nats.Connect(URL)
 	if err != nil {
 		log.Fatalf("Error connecting mq: %v", err)
 	}
@@ -26,7 +26,6 @@ func HandleNewOrder() {
 			return
 		}
 		encodedOrder, _ := json.Marshal(checkedOrder)
-		// TODO: записать в outbox.
 		if err := nc.Publish(Storage, encodedOrder); err != nil {
 			log.Printf("Error publishing message: %v", err)
 			return

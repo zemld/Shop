@@ -10,6 +10,10 @@ func BeginTransaction(dbConnection string) (*sql.DB, *sql.Tx, error) {
 
 	ctx, cancel := getContext()
 	defer cancel()
+	err = CreateTable(db, createOutboxTableQuery)
+	if err != nil {
+		return nil, nil, err
+	}
 	tx, err := db.BeginTx(ctx, nil)
 	return db, tx, err
 }

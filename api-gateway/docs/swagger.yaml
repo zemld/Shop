@@ -158,7 +158,7 @@ paths:
           schema:
             $ref: '#/definitions/models.StatusResponse'
       tags:
-      - Admin
+      - Admins
   /v1/items/add:
     post:
       description: Adds item to store.

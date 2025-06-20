@@ -8,7 +8,7 @@ import (
 )
 
 // @description Registers a new admin.
-// @tags Admin
+// @tags Admins
 // @param name query string true "Admin which you want to register"
 // @produce json
 // @success 200 {object} models.Admin

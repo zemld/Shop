@@ -62,7 +62,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "Admin"
+                    "Admins"
                 ],
                 "parameters": [
                     {

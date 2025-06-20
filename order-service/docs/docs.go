@@ -39,7 +39,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/models.Order"
+                            "$ref": "#/definitions/models.OrderStatusResponse"
                         }
                     },
                     "400": {

@@ -14,7 +14,7 @@ import (
 // @tags Orders
 // @param order body models.Order true "User whose balance you want to change"
 // @produce json
-// @success 200 {object} models.Order
+// @success 200 {object} models.OrderStatusResponse
 // @failure 400 {object} models.OrderStatusResponse
 // @failure 500 {object} models.OrderStatusResponse
 // @router /v1/orders/create-order [post]
@@ -36,7 +36,7 @@ func CreateOrderHandler(w http.ResponseWriter, r *http.Request) {
 		internal.WriteResponse(w, models.OrderStatusResponse{Message: fmt.Sprintf("Can't handle new order: %s", err.Error())}, http.StatusInternalServerError)
 		return
 	}
-	var createdOrder models.Order
+	var createdOrder models.OrderStatusResponse
 	if err := json.Unmarshal(msg, &createdOrder); err != nil {
 		internal.WriteResponse(w, models.OrderStatusResponse{Message: fmt.Sprintf("Can't handle new order: %s", err.Error())}, http.StatusInternalServerError)
 		return

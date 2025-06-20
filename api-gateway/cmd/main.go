@@ -16,7 +16,6 @@ import (
 func main() {
 	router := chi.NewRouter()
 
-	// TODO: настроить теги
 	router.Get("/v1/users/{user}", handlers.CheckUserRegisteredHanlder)
 	router.Post("/v1/users/register", handlers.RegisterUserHandler)
 	router.Post("/v1/users/change-balance", handlers.ChangeBalanceHandler)

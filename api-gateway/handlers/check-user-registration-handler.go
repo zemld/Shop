@@ -30,7 +30,7 @@ func CheckUserRegisteredHanlder(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	log.Printf("Parsed user: %s\n", user)
-	response, err := internal.SendRequestToService(internal.GET, internal.UserServiceURL, r.URL.Path, nil)
+	response, err := internal.SendRequestToService(internal.GET, internal.UserServiceURL, r.URL.Path, nil, nil)
 	if err != nil {
 		internal.WriteResponse(w, models.StatusResponse{
 			Name:    user,

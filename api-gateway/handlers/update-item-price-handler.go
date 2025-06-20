@@ -19,7 +19,7 @@ import (
 // @failure 500 {object} models.StatusResponse
 // @router /v1/items/update-price [post]
 func UpdateItemPriceHandler(w http.ResponseWriter, r *http.Request) {
-	response, err := internal.SendRequestToService(internal.POST, internal.AdminServiceURL, r.URL.Path, r.URL.Query())
+	response, err := internal.SendRequestToService(internal.POST, internal.AdminServiceURL, r.URL.Path, r.URL.Query(), nil)
 	if err != nil {
 		internal.WriteResponse(w, models.StatusResponse{
 			Message: "Failed to update item price: " + err.Error(),

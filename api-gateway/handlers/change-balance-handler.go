@@ -17,7 +17,7 @@ import (
 // @failure 500 {object} models.StatusResponse
 // @router /v1/users/change-balance [post]
 func ChangeBalanceHandler(w http.ResponseWriter, r *http.Request) {
-	response, err := internal.SendRequestToService(internal.POST, internal.UserServiceURL, r.URL.Path, r.URL.Query())
+	response, err := internal.SendRequestToService(internal.POST, internal.UserServiceURL, r.URL.Path, r.URL.Query(), nil)
 	if err != nil {
 		internal.WriteResponse(w, models.StatusResponse{
 			Name:    "",

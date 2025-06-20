@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"io"
 	"net/http"
 
 	"github.com/zemld/Shop/api-gateway/domain/models"
@@ -16,7 +17,15 @@ import (
 // @failure 500 {object} models.OrderStatusResponse
 // @router /v1/orders/create-order [post]
 func CreateOrderHandler(w http.ResponseWriter, r *http.Request) {
-	response, err := internal.SendRequestToService(internal.POST, internal.OrderServiceURL, r.URL.Path, r.URL.Query())
+	body, err := io.ReadAll(r.Body)
+	if err != nil {
+		internal.WriteResponse(w, models.OrderStatusResponse{
+			Message: "Failed to read request body: " + err.Error(),
+		}, http.StatusBadRequest)
+		return
+	}
+	defer r.Body.Close()
+	response, err := internal.SendRequestToService(internal.POST, internal.OrderServiceURL, r.URL.Path, r.URL.Query(), body)
 	if err != nil {
 		internal.WriteResponse(w, models.OrderStatusResponse{
 			Message: "Failed to create order: " + err.Error(),

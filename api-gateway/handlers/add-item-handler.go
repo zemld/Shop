@@ -20,7 +20,7 @@ import (
 // @failure 500 {object} models.StatusResponse
 // @router /v1/items/add [post]
 func AddItemHandler(w http.ResponseWriter, r *http.Request) {
-	response, err := internal.SendRequestToService(internal.POST, internal.AdminServiceURL, r.URL.Path, r.URL.Query())
+	response, err := internal.SendRequestToService(internal.POST, internal.AdminServiceURL, r.URL.Path, r.URL.Query(), nil)
 	if err != nil {
 		internal.WriteResponse(w, models.StatusResponse{
 			Message: "Failed to add item: " + err.Error(),

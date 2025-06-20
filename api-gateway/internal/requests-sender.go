@@ -1,7 +1,9 @@
 package internal
 
 import (
+	"bytes"
 	"fmt"
+	"io"
 	"log"
 	"net/http"
 	"net/url"
@@ -23,14 +25,16 @@ type RequestParams struct {
 	URL         string
 	Path        string
 	QueryParams url.Values
+	Body        []byte
 }
 
-func SendRequestToService(method string, address string, path string, queryParams url.Values) (*http.Response, error) {
+func SendRequestToService(method string, address string, path string, queryParams url.Values, body []byte) (*http.Response, error) {
 	request := createRequest(RequestParams{
 		Method:      method,
 		URL:         address,
 		Path:        path,
 		QueryParams: queryParams,
+		Body:        body,
 	})
 	client := http.Client{}
 	response, err := client.Do(request)
@@ -52,6 +56,13 @@ func createRequest(r RequestParams) *http.Request {
 		}
 		request.URL.RawQuery = q.Encode()
 		log.Printf("Request URL with query parameters: %s\n", request.URL.String())
+	}
+	if r.Body != nil {
+		request.Body = http.NoBody
+		if len(r.Body) > 0 {
+			request.Body = io.NopCloser(bytes.NewReader(r.Body))
+			request.ContentLength = int64(len(r.Body))
+		}
 	}
 	return request
 }

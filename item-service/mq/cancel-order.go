@@ -15,18 +15,27 @@ func HandleCanceledOrder() {
 	}
 	_, err = nc.Subscribe(PaymentCancel, func(msg *nats.Msg) {
 		log.Printf("Recieved message: %s", string(msg.Data))
-		var orderMsg models.OrderMsg
-		if err := json.Unmarshal(msg.Data, &orderMsg); err != nil {
+		var order models.OrderStatusResponse
+		if err := json.Unmarshal(msg.Data, &order); err != nil {
 			log.Printf("Error unmarshalling message: %v", err)
 			return
 		}
-		restoredOrder, err := updateItemsInStock(orderMsg, false)
+		orderMessage := models.OrderMsg{
+			Id:    order.OrderID,
+			User:  order.Order.User,
+			Items: order.Order.Items,
+		}
+		log.Printf("Unmarshalled order message: %v", orderMessage)
+		restoredOrder, err := updateItemsInStock(orderMessage, false)
+		log.Printf("Restoring items in stock for order: %v", restoredOrder)
 		if err != nil {
 			log.Printf("Error updating items in stock: %v", err)
 			return
 		}
-		encodedOrder, _ := json.Marshal(restoredOrder)
-		if err := nc.Publish(OrderHandled, encodedOrder); err != nil {
+		order.Message = "Order canceled"
+		encodedResponse, _ := json.Marshal(order)
+		log.Printf("Response: %v", order)
+		if err := nc.Publish(OrderHandled, encodedResponse); err != nil {
 			log.Printf("Error publishing message: %v", err)
 			return
 		}

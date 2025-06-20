@@ -8,7 +8,7 @@ import (
 )
 
 // @description Registers a new user.
-// @tag Users
+// @tags Users
 // @param name query string true "User which you want to register"
 // @param balance query float64 true "Balance of the user"
 // @produce json

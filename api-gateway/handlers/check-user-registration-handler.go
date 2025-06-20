@@ -10,7 +10,7 @@ import (
 )
 
 // @description Checks if user is registered.
-// @tags Files
+// @tags Users
 // @param user path string true "User which you want to check"
 // @produce json
 // @success 200 {object} models.UserRegistered

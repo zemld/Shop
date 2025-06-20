@@ -32,6 +32,10 @@ func PayForOrder() {
 		orderCost := getOrderCost(order)
 		query := make(map[string]string)
 		query["name"] = order.User
+		orderResponse := models.OrderStatusResponse{
+			OrderID: orderMsg.Id,
+			Order:   order,
+		}
 		userBalanceResponse, err := SendRequestToUserService(constants.GET, constants.GetUserBalance, query)
 		if err != nil {
 			log.Printf("Error sending request to user service: %v", err)
@@ -48,8 +52,8 @@ func PayForOrder() {
 		}
 		log.Printf("User %s has balance %f, order cost is %f", user.Name, user.Balance, orderCost)
 		if user.Balance < orderCost {
-			orderMsg.Message = "Not enough money"
-			encodedResult, _ := json.Marshal(orderMsg)
+			orderResponse.Message = "Not enough money"
+			encodedResult, _ := json.Marshal(orderResponse)
 			log.Printf("Insufficient balance for user %s: %f < %f", user.Name, user.Balance, orderCost)
 			if err := nc.Publish(mq.PaymentCancel, encodedResult); err != nil {
 				log.Printf("Error publishing cancel message: %v", err)
@@ -66,8 +70,8 @@ func PayForOrder() {
 			log.Printf("Error updating user balance: %s", updateBalanceResponse.Status)
 			return
 		}
-		orderMsg.Message = "Order paid successfully"
-		encodedOrder, _ := json.Marshal(orderMsg)
+		orderResponse.Message = "Order paid successfully"
+		encodedOrder, _ := json.Marshal(orderResponse)
 		if err := nc.Publish(mq.OrderHandled, encodedOrder); err != nil {
 			log.Printf("Error publishing message: %v", err)
 			return

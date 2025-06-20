@@ -31,6 +31,8 @@ func main() {
 	router.Post("/v1/items/remove", handlers.RemoveItemHandler)
 	router.Post("/v1/items/update-price", handlers.UpdateItemPriceHandler)
 
+	router.Post("/v1/orders/create-order", handlers.CreateOrderHandler)
+
 	fs := http.FileServer(http.Dir("./docs"))
 	router.Handle("/docs/*", http.StripPrefix("/docs/", fs))
 	router.Get("/swagger/*", httpSwagger.Handler(httpSwagger.URL("http://localhost:8080/docs/swagger.json")))

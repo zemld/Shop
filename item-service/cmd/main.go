@@ -27,6 +27,7 @@ func main() {
 	router.Handle("/docs/*", http.StripPrefix("/docs/", fs))
 	router.Get("/swagger/*", httpSwagger.Handler(httpSwagger.URL("http://localhost:8083/docs/swagger.json")))
 
+	// TODO: по-хорошему, эта логика должна быть в admin-service.
 	go mq.HandleNewOrder()
 	go mq.HandleCanceledOrder()
 

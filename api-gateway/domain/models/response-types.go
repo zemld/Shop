@@ -12,4 +12,5 @@ const (
 	UserRegisteredResponseType = "UserRegistered"
 	StatusResponseType         = "StatusResponse"
 	UserResponseType           = "UserResponse"
+	OrderResponseType          = "OrderResponse"
 )

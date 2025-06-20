@@ -16,7 +16,7 @@ import (
 // @failure 500 {object} models.StatusResponse
 // @router /v1/admins/register [post]
 func RegisterAdminHandler(w http.ResponseWriter, r *http.Request) {
-	response, err := internal.SendRequestToAdminService(internal.POST, r.URL.Path, r.URL.Query())
+	response, err := internal.SendRequestToService(internal.POST, internal.AdminServiceURL, r.URL.Path, r.URL.Query())
 	if err != nil {
 		internal.WriteResponse(w, models.StatusResponse{
 			Message: "Failed to register admin: " + err.Error(),

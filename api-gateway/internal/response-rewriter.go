@@ -49,5 +49,8 @@ func getResponseStruct(responseType string) any {
 	if responseType == models.ItemResponseType {
 		return models.ItemResponse{}
 	}
+	if responseType == models.OrderResponseType {
+		return models.OrderStatusResponse{}
+	}
 	return models.StatusResponse{}
 }

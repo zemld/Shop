@@ -15,6 +15,7 @@ const (
 const (
 	UserServiceURL  = "http://user-service:8081"
 	AdminServiceURL = "http://admin-service:8082"
+	OrderServiceURL = "http://order-service:8084"
 )
 
 type RequestParams struct {
@@ -24,36 +25,19 @@ type RequestParams struct {
 	QueryParams url.Values
 }
 
-func SendRequestToUserService(method string, path string, queryParams url.Values) (*http.Response, error) {
+func SendRequestToService(method string, address string, path string, queryParams url.Values) (*http.Response, error) {
 	request := createRequest(RequestParams{
 		Method:      method,
-		URL:         UserServiceURL,
+		URL:         address,
 		Path:        path,
 		QueryParams: queryParams,
 	})
 	client := http.Client{}
 	response, err := client.Do(request)
 	if err != nil {
-		log.Println("Couldn't get response from user service.")
+		log.Println("Couldn't get response from service.")
 		return nil, err
 	}
-	log.Printf("Got response from user service: %s\n", response.Body)
-	return response, nil
-}
-
-func SendRequestToAdminService(method string, path string, queryParams url.Values) (*http.Response, error) {
-	request := createRequest(RequestParams{
-		Method:      method,
-		URL:         AdminServiceURL,
-		Path:        path,
-		QueryParams: queryParams})
-	client := http.Client{}
-	response, err := client.Do(request)
-	if err != nil {
-		log.Println("Couldn't get response from admin service.")
-		return nil, err
-	}
-	log.Printf("Got response from admin service: %s\n", response.Body)
 	return response, nil
 }
 

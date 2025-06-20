@@ -17,7 +17,7 @@ import (
 // @failure 500 {object} models.StatusResponse
 // @router /v1/admins/auth [get]
 func AuthentificateAdminHandler(w http.ResponseWriter, r *http.Request) {
-	response, err := internal.SendRequestToAdminService(internal.GET, r.URL.Path, r.URL.Query())
+	response, err := internal.SendRequestToService(internal.GET, internal.AdminServiceURL, r.URL.Path, r.URL.Query())
 	if err != nil {
 		internal.WriteResponse(w, models.StatusResponse{
 			Message: "Failed to authenticate admin: " + err.Error(),

@@ -17,7 +17,7 @@ import (
 // @failure 500 {object} models.StatusResponse
 // @router /v1/users/register [post]
 func RegisterUserHandler(w http.ResponseWriter, r *http.Request) {
-	response, err := internal.SendRequestToUserService(internal.POST, r.URL.Path, r.URL.Query())
+	response, err := internal.SendRequestToService(internal.POST, internal.UserServiceURL, r.URL.Path, r.URL.Query())
 	if err != nil {
 		internal.WriteResponse(w, models.StatusResponse{
 			Name:    r.URL.Query().Get("name"),

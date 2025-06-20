@@ -57,6 +57,24 @@ definitions:
       old_price:
         type: number
     type: object
+  models.Order:
+    properties:
+      items:
+        items:
+          $ref: '#/definitions/models.Item'
+        type: array
+      user:
+        type: string
+    type: object
+  models.OrderStatusResponse:
+    properties:
+      message:
+        type: string
+      order:
+        $ref: '#/definitions/models.Order'
+      order_id:
+        type: integer
+    type: object
   models.StatusResponse:
     properties:
       message:
@@ -139,6 +157,8 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/models.StatusResponse'
+      tags:
+      - Admin
   /v1/items/add:
     post:
       description: Adds item to store.
@@ -330,6 +350,33 @@ paths:
             $ref: '#/definitions/models.StatusResponse'
       tags:
       - Items
+  /v1/orders/create-order:
+    post:
+      description: Create a new order
+      parameters:
+      - description: User whose balance you want to change
+        in: body
+        name: order
+        required: true
+        schema:
+          $ref: '#/definitions/models.Order'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Order'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.OrderStatusResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.OrderStatusResponse'
+      tags:
+      - Orders
   /v1/users/{user}:
     get:
       description: Checks if user is registered.
@@ -355,7 +402,7 @@ paths:
           schema:
             $ref: '#/definitions/models.StatusResponse'
       tags:
-      - Files
+      - Users
   /v1/users/balance:
     get:
       description: Returns user's balance.
@@ -442,4 +489,6 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/models.StatusResponse'
+      tags:
+      - Users
 swagger: "2.0"

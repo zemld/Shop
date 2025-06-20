@@ -67,6 +67,9 @@ const docTemplate = `{
                 "produces": [
                     "application/json"
                 ],
+                "tags": [
+                    "Admin"
+                ],
                 "parameters": [
                     {
                         "type": "string",
@@ -385,6 +388,48 @@ const docTemplate = `{
                 }
             }
         },
+        "/v1/orders/create-order": {
+            "post": {
+                "description": "Create a new order",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Orders"
+                ],
+                "parameters": [
+                    {
+                        "description": "User whose balance you want to change",
+                        "name": "order",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.Order"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.Order"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.OrderStatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.OrderStatusResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/v1/users/balance": {
             "get": {
                 "description": "Returns user's balance.",
@@ -478,6 +523,9 @@ const docTemplate = `{
                 "produces": [
                     "application/json"
                 ],
+                "tags": [
+                    "Users"
+                ],
                 "parameters": [
                     {
                         "type": "string",
@@ -523,7 +571,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Files"
+                    "Users"
                 ],
                 "parameters": [
                     {
@@ -644,6 +692,34 @@ const docTemplate = `{
                 },
                 "old_price": {
                     "type": "number"
+                }
+            }
+        },
+        "models.Order": {
+            "type": "object",
+            "properties": {
+                "items": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.Item"
+                    }
+                },
+                "user": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.OrderStatusResponse": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string"
+                },
+                "order": {
+                    "$ref": "#/definitions/models.Order"
+                },
+                "order_id": {
+                    "type": "integer"
                 }
             }
         },
